@@ -1,0 +1,2431 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  KAWAVE · LANDING PAGE · ARQUIVO ÚNICO
+  Salve como index.html, abra no VSCode e use "Open with Live
+  Server" (endereço http://). Dar dois cliques no arquivo mostra a
+  página, mas o set do YouTube só toca por um endereço http://.
+  Só as fontes e o YouTube vêm da internet; o resto está aqui dentro.
+
+  ONDE ESTÁ CADA COISA  (use Ctrl+F)
+    <style> ............ CSS: 01 TOKENS (cores e fontes), 02 BASE,
+                         03 COMPONENTES, 04 SEÇÕES, 05 MOVIMENTO
+    <body> ............. HTML: textos, serviços, marés, formulário
+    <symbol id="logo-kawave"> ... a logo vetorizada
+    <script> ........... JS, em módulos: config, nucleo, rolagem,
+                         tinta, marca, ondas, faixa, batida, cursor,
+                         revelar, botoes, servicos, economia, formulario, main
+
+  PARA PUBLICAR: procure por "EDITE AQUI" e troque o WhatsApp e os
+  links de Instagram, SoundCloud, Spotify e YouTube.
+  ============================================================
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kawave | DJ de música eletrônica para festas e eventos</title>
+<meta name="description" content="Kawave é DJ de música eletrônica: house progressivo, techno melódico e ambient psicodélico para festas na praia, clubes, casamentos e eventos. Reserve a sua data.">
+<meta name="theme-color" content="#0d1244">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kawave | DJ de música eletrônica">
+<meta property="og:description" content="Eletrônica que chega como a maré. Reserve a data do seu evento.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230d1244'/%3E%3Cpath d='M8 58 Q29 28 50 58 T92 58' fill='none' stroke='%232fe0ff' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E">
+
+<!-- só liga os estados iniciais de animação se o JavaScript estiver ativo -->
+<script>document.documentElement.classList.add('js')</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&amp;family=Unbounded:wght@300..800&amp;display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================
+   01 · TOKENS
+   Tudo que muda a cara da página mora aqui.
+   Água profunda como base, tintas iridescentes de suminagashi
+   como cor, espuma como texto e um "papel molhado" claro.
+   ========================================================== */
+:root{
+  /* água */
+  --fundo:#0d1244;          /* mar de madrugada */
+  --fundo-2:#141c66;        /* água um tom acima */
+  --profundo:#080b30;       /* fundo do mar */
+  --espuma:#e9f8f4;         /* texto sobre o escuro */
+  --agua-clara:#dff3ee;     /* seção clara */
+  --navy:#0d1244;           /* texto sobre o claro */
+
+  /* tintas */
+  --ciano:#2fe0ff;
+  --magenta:#ff4fa0;
+  --vidro:#7ff0c4;
+  --sol:#ffc94d;
+  --violeta:#9b82ff;
+
+  /* layout */
+  --pad:clamp(1.25rem,4vw,3rem);
+  --borda:clamp(56px,8vw,120px);   /* altura das ondas entre seções */
+  --largura:1180px;
+  --logo-prop:5.5132;              /* largura / altura da logo (assets/logo-kawave.svg) */
+
+  /* tipografia */
+  --display:'Unbounded','Arial Rounded MT Bold',system-ui,sans-serif;
+  --texto:'Fraunces',Georgia,'Times New Roman',serif;
+
+  /* movimento */
+  --curva-mare:cubic-bezier(.2,.7,.2,1);
+}
+
+/* ==========================================================
+   02 · BASE
+   Reset, corpo, grão de maresia, utilitários e tipografia.
+   ========================================================== */
+*,*::before,*::after{box-sizing:border-box}
+
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:4.5rem;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  background:var(--profundo);
+  color:var(--espuma);
+  font-family:var(--texto);
+  font-size:1.125rem;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+h1,h2,h3,p,ul,ol{margin:0}
+a{color:inherit}
+svg{max-width:100%}
+
+/* Maresia: grãos de sal por cima de tudo */
+body::after{
+  content:"";
+  position:fixed;inset:0;z-index:200;pointer-events:none;
+  opacity:.22;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 14 -8.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+}
+
+/* ---------- utilitários ---------- */
+.sr-only{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+.pular{
+  position:absolute;left:1rem;top:-4rem;z-index:400;
+  background:var(--sol);color:#1a1350;
+  padding:.6rem 1rem;border-radius:999px;
+  font-family:var(--display);font-size:.85rem;text-decoration:none;
+}
+.pular:focus{top:1rem}
+
+:focus-visible{outline:3px solid var(--ciano);outline-offset:3px}
+
+.miolo{width:min(var(--largura),100% - 2*var(--pad));margin-inline:auto}
+
+/* ---------- tipografia ---------- */
+.titulo{
+  font-family:var(--display);
+  font-weight:600;
+  font-size:clamp(1.7rem,4.2vw,3.1rem);
+  line-height:1.14;
+  letter-spacing:-.02em;
+  max-width:20ch;
+  margin-bottom:1.25rem;
+}
+.lide{
+  font-size:clamp(1.1rem,1.6vw,1.3rem);
+  line-height:1.65;
+  max-width:58ch;
+  color:rgba(233,248,244,.86);
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+
+/* ==========================================================
+   03 · COMPONENTES
+   Peças que aparecem em mais de uma seção.
+   ========================================================== */
+
+/* ---------- botões ---------- */
+.btn{
+  position:relative;overflow:hidden;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:.95rem 1.5rem;
+  border-radius:999px;
+  border:1.5px solid transparent;
+  font-family:var(--display);font-weight:500;font-size:.88rem;line-height:1.2;
+  text-decoration:none;cursor:pointer;
+  transition:transform .2s ease-out,box-shadow .25s ease,background-color .25s ease,border-color .25s ease;
+}
+.btn--sol{background:var(--sol);color:#1a1350}
+.btn--sol:hover{box-shadow:0 0 0 6px rgba(255,201,77,.26),0 0 34px rgba(255,201,77,.35)}
+.btn--linha{border-color:rgba(233,248,244,.55);color:var(--espuma);background:rgba(13,18,68,.35)}
+.btn--linha:hover{background:rgba(233,248,244,.14);border-color:var(--espuma)}
+.btn--tinta{background:var(--navy);color:var(--espuma)}
+.btn--tinta:hover{box-shadow:0 0 0 6px rgba(13,18,68,.16)}
+.btn--pq{padding:.6rem 1.1rem;font-size:.8rem}
+
+/* gota que nasce no ponto do clique (criada por js/botoes.js) */
+.btn__gota{
+  position:absolute;width:24px;height:24px;margin:-12px 0 0 -12px;
+  border:1.5px solid currentColor;border-radius:50%;
+  pointer-events:none;
+  animation:gota .85s ease-out forwards;
+}
+.btn__gota--2{animation-delay:.12s}
+
+/* ---------- topo ---------- */
+.topo{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem var(--pad);
+  transition:background-color .3s ease;
+}
+.rolou .topo{
+  background:rgba(13,18,68,.72);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+}
+.topo__logo{
+  display:block;line-height:0;color:var(--espuma);
+  visibility:hidden;opacity:0;
+  transition:opacity .3s ease,visibility .3s;
+}
+.topo__logo svg{display:block;height:1.35rem;width:auto;aspect-ratio:var(--logo-prop);fill:currentColor}
+.rolou .topo__logo{visibility:visible;opacity:1}
+.topo nav{display:flex;align-items:center;gap:clamp(1rem,3vw,2rem);margin-left:auto}
+.topo nav a:not(.btn){
+  font-family:var(--display);font-weight:500;font-size:.85rem;
+  text-decoration:none;color:var(--espuma);
+}
+.topo nav a:not(.btn):hover{text-decoration:underline;text-underline-offset:.4em}
+
+/* linha de maré: cresce conforme a página rola (js/rolagem.js) */
+.topo__nivel{
+  position:absolute;left:0;right:0;bottom:-4px;width:100%;height:8px;
+  pointer-events:none;opacity:0;overflow:visible;
+  transition:opacity .3s ease;
+}
+.rolou .topo__nivel{opacity:1}
+.topo__nivel path{
+  fill:none;stroke:var(--ciano);stroke-width:1.6;stroke-linecap:round;
+  stroke-dasharray:1;stroke-dashoffset:1;
+}
+
+/* ---------- bordas onduladas entre seções ---------- */
+.borda{
+  position:absolute;left:0;right:0;bottom:-1px;z-index:3;
+  height:var(--borda);
+  pointer-events:none;line-height:0;
+}
+.borda svg{display:block;width:100%;height:100%;max-width:none}
+/* espuma: pontinhos que correm pela crista da onda */
+.borda .espuma{
+  --crista:rgba(233,248,244,.85);
+  stroke-linecap:round;
+  stroke-dasharray:2 12;
+  animation:espuma 7s linear infinite;
+}
+
+/* ---------- cursor gota (só com mouse) ----------
+   .cursor só se move (JS); .cursor__anel só muda de tamanho (CSS).
+   O anel é branco; sobre o fundo claro ([data-tema="claro"]) fica azul-marinho. */
+.cursor{
+  position:fixed;left:0;top:0;z-index:300;
+  width:34px;height:34px;margin:-17px 0 0 -17px;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .25s ease;
+  will-change:transform;
+}
+.cursor.visivel{opacity:1}
+.cursor__anel{
+  width:100%;height:100%;
+  border:1.5px solid #fff;border-radius:50%;
+  background:rgba(255,255,255,0);
+  box-shadow:0 0 0 1px rgba(8,11,48,.28);
+  transition:scale .3s var(--curva-mare),background-color .3s ease,border-color .3s ease;
+}
+.cursor[data-estado="ativo"] .cursor__anel{scale:1.9;background:rgba(255,255,255,.2)}
+.cursor[data-estado="tinta"] .cursor__anel{scale:1.35}
+.cursor[data-estado="texto"] .cursor__anel{scale:.5}
+.cursor[data-tema="claro"] .cursor__anel{border-color:#0d1244;box-shadow:0 0 0 1px rgba(255,255,255,.5)}
+.cursor[data-tema="claro"][data-estado="ativo"] .cursor__anel{background:rgba(13,18,68,.14)}
+@media (hover:none),(pointer:coarse){.cursor{display:none}}
+
+/* ---------- botão da batida ---------- */
+.batida{
+  position:fixed;right:var(--pad);bottom:1.25rem;z-index:150;
+  display:inline-flex;align-items:center;gap:.7rem;
+  padding:.6rem 1.05rem .6rem .9rem;
+  border-radius:999px;
+  border:1.5px solid rgba(233,248,244,.4);
+  background:rgba(13,18,68,.9);
+  color:var(--espuma);
+  font-family:var(--display);font-weight:500;font-size:.78rem;line-height:1.2;
+  cursor:pointer;
+  transition:border-color .25s ease,box-shadow .25s ease;
+}
+.batida[hidden]{display:none}
+.batida:hover{border-color:var(--espuma)}
+.batida[aria-pressed="true"]{
+  border-color:var(--sol);
+  box-shadow:0 0 0 5px rgba(255,201,77,.16),0 0 30px rgba(255,201,77,.25);
+}
+.batida__eq{display:inline-flex;align-items:flex-end;gap:2px;height:14px}
+.batida__eq i{
+  width:3px;height:100%;border-radius:2px;
+  background:var(--sol);
+  transform:scaleY(.25);transform-origin:bottom;
+}
+.batida[aria-pressed="true"] .batida__eq i{animation:eq .8s ease-in-out infinite}
+.batida__eq i:nth-child(2){animation-delay:-.3s}
+.batida__eq i:nth-child(3){animation-delay:-.55s}
+.batida__eq i:nth-child(4){animation-delay:-.15s}
+
+/* ---------- player do set (YouTube) ---------- */
+.set{
+  position:fixed;right:var(--pad);bottom:4.6rem;z-index:150;
+  width:min(380px,calc(100vw - 2*var(--pad)));
+  background:rgba(8,11,48,.97);
+  border:1.5px solid rgba(233,248,244,.28);
+  border-radius:18px;
+  box-shadow:0 18px 50px rgba(0,0,0,.45);
+  overflow:hidden;
+  opacity:0;transform:translateY(14px) scale(.98);transform-origin:bottom right;
+  pointer-events:none;
+  transition:opacity .35s ease,transform .45s var(--curva-mare);
+}
+.set[hidden]{display:none}
+.set.aberto{opacity:1;transform:none;pointer-events:auto}
+.set__topo{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.5rem .5rem .5rem 1rem}
+.set__titulo{
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-family:var(--display);font-weight:500;font-size:.75rem;line-height:1.3;
+}
+.set__fechar{
+  flex:none;width:2rem;height:2rem;
+  border:1.5px solid rgba(233,248,244,.4);border-radius:50%;
+  background:transparent;color:var(--espuma);
+  font:inherit;font-size:1.2rem;line-height:1;cursor:pointer;
+  transition:border-color .2s ease,background-color .2s ease;
+}
+.set__fechar:hover{border-color:var(--espuma);background:rgba(233,248,244,.12)}
+.set__video{position:relative;aspect-ratio:16/9;background:#000}
+.set__video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.set__aviso{padding:.7rem 1rem .85rem;font-size:.95rem;line-height:1.45;color:rgba(233,248,244,.92)}
+.set__aviso[hidden]{display:none}
+.set__aviso a{color:var(--sol);text-underline-offset:.3em}
+
+/* ---------- formulário ---------- */
+.form{display:grid;gap:1.1rem}
+.form__duas{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+.campo{display:grid;gap:.45rem}
+.campo label{font-family:var(--display);font-weight:500;font-size:.8rem}
+.campo input,.campo select,.campo textarea{
+  width:100%;
+  font:inherit;font-size:1.05rem;color:var(--espuma);
+  background:rgba(233,248,244,.06);
+  border:1px solid rgba(233,248,244,.3);
+  border-radius:14px;
+  padding:.85rem 1rem;
+  transition:border-color .2s ease,box-shadow .2s ease,background-color .2s ease;
+}
+.campo textarea{resize:vertical;min-height:7.5rem}
+.campo input::placeholder,.campo textarea::placeholder{color:rgba(233,248,244,.5)}
+.campo input:focus,.campo select:focus,.campo textarea:focus{
+  outline:none;border-color:var(--ciano);background:rgba(233,248,244,.09);
+  box-shadow:0 0 0 3px rgba(47,224,255,.25);
+}
+.campo input[type="date"]{color-scheme:dark}
+.campo select{
+  appearance:none;-webkit-appearance:none;
+  padding-right:2.6rem;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23e9f8f4' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 1rem center;
+}
+.campo select option{background:var(--fundo);color:var(--espuma)}
+.form .btn{justify-self:start;margin-top:.4rem}
+.status{min-height:1.6em;font-style:italic;color:var(--vidro)}
+
+@media (max-width:640px){
+  .topo nav a:not(.btn){display:none}
+  .form__duas{grid-template-columns:1fr}
+}
+
+/* ==========================================================
+   04 · SEÇÕES
+   Uma seção por bloco, na ordem em que aparecem na página.
+   ========================================================== */
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;
+  min-height:100vh;min-height:100svh;
+  display:flex;align-items:flex-end;
+  padding:7rem 0 calc(var(--borda) + 2.5rem);
+  background:var(--fundo);
+  overflow:hidden;
+  touch-action:pan-y;
+  -webkit-user-select:none;user-select:none;
+}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero__veu{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(90% 26% at 50% 100%,rgba(233,248,244,.16),transparent 70%),
+    radial-gradient(120% 75% at 10% 100%,rgba(8,11,48,.93) 0%,rgba(8,11,48,.62) 40%,transparent 72%),
+    linear-gradient(to bottom,rgba(13,18,68,.6) 0,transparent 24%);
+}
+.hero__conteudo{position:relative;z-index:2;pointer-events:none}
+.hero__conteudo a{pointer-events:auto}
+
+/* logo do Kawave: o filtro #ondular faz ela ondular como se estivesse
+   debaixo d'água (js/marca.js anima o filtro) e o drop-shadow dá o brilho */
+.marca{
+  width:min(100%,68rem);
+  margin:0 0 1.5rem;
+  line-height:0;
+  color:var(--espuma);
+  filter:url(#ondular);
+}
+.marca.parada{filter:none}   /* hero fora da tela: sem filtro (js/marca.js) */
+/* brilho ciano atrás da logo (barato: degradê estático, sem desfoque) */
+.hero__conteudo::before{
+  content:"";position:absolute;z-index:-1;pointer-events:none;
+  left:0;top:0;width:min(100%,68rem);aspect-ratio:var(--logo-prop);
+  transform:scale(1.14,2.5);
+  background:radial-gradient(closest-side,rgba(47,224,255,.30),transparent);
+}
+.marca svg{display:block;width:100%;height:auto;aspect-ratio:var(--logo-prop);fill:currentColor}
+.hero__frase{
+  font-style:italic;font-weight:300;
+  font-size:clamp(1.25rem,2.4vw,1.75rem);line-height:1.4;
+  max-width:34ch;margin-bottom:2rem;
+  color:var(--espuma);
+}
+.hero__acoes{display:flex;flex-wrap:wrap;gap:.9rem}
+
+.hero__dica{
+  position:absolute;z-index:2;
+  right:var(--pad);bottom:calc(var(--borda) + 1rem);
+  display:flex;align-items:center;gap:.65rem;
+  font-style:italic;font-size:.98rem;color:rgba(233,248,244,.88);
+  pointer-events:none;
+}
+.hero__dica i{
+  width:.95rem;height:.95rem;border-radius:50%;
+  border:1.5px solid var(--ciano);box-shadow:0 0 0 4px rgba(47,224,255,.18);
+}
+
+/* ---------- o som ---------- */
+.som{
+  position:relative;
+  background:var(--fundo-2);
+  padding-block:cgilamp(1.5rem,4vw,3rem) calc(var(--borda) + clamp(2rem,5vw,4rem));
+}
+.som > .miolo,.reservar > .miolo{position:relative;z-index:1}
+
+/* faixa: duas fitas de texto que se trançam sobre a onda (js/faixa.js) */
+.faixa{
+  position:relative;z-index:1;
+  width:100%;overflow:hidden;
+  margin-bottom:clamp(2rem,5vw,4rem);
+}
+.faixa svg{display:block;width:100%;height:auto;max-width:none;overflow:hidden}
+.faixa text{font-family:var(--display);font-weight:700;letter-spacing:-.02em}
+.faixa .fita--contorno{fill:none;stroke:rgba(233,248,244,.75);stroke-width:1.4}
+.faixa .fita--cheia{fill:url(#grad-faixa)}
+
+.mares{
+  list-style:none;padding:0;
+  margin-top:clamp(2.5rem,6vw,4.5rem);
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(1.75rem,4vw,3.5rem);
+}
+.mare--baixa{--tinta:var(--ciano)}
+.mare--cheia{--tinta:var(--violeta)}
+.mare--ressaca{--tinta:var(--magenta)}
+.mare__onda{display:block;width:100%;height:auto;margin-bottom:.9rem;overflow:visible}
+.mare__onda path{fill:none;stroke:var(--tinta);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.mare__onda path:nth-child(2){opacity:.45}
+.mare__onda path:nth-child(3){opacity:.2}
+.mare h3{font-family:var(--display);font-weight:600;font-size:1.3rem;letter-spacing:-.01em;margin-bottom:.25rem}
+.mare__quando{font-style:italic;color:var(--tinta);margin-bottom:.75rem}
+.mare p:last-child{color:rgba(233,248,244,.84);max-width:34ch}
+
+.ouvir{
+  margin-top:clamp(3rem,7vw,5rem);
+  display:flex;flex-wrap:wrap;align-items:center;gap:1.1rem 2rem;
+}
+.ouvir h3{font-family:var(--display);font-weight:600;font-size:1.3rem;letter-spacing:-.01em}
+.ouvir__links{display:flex;flex-wrap:wrap;gap:.7rem}
+
+/* ---------- serviços (papel molhado) ---------- */
+.servicos{
+  position:relative;
+  background:var(--agua-clara);color:var(--navy);
+  padding-block:clamp(4rem,9vw,8rem) calc(var(--borda) + clamp(2rem,5vw,4rem));
+}
+.servicos :focus-visible{outline-color:#4a35e8}
+.servicos .lide{color:rgba(13,18,68,.82)}
+.servicos__grade{
+  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+  gap:clamp(2rem,6vw,5rem);align-items:start;
+}
+.servicos__intro{position:sticky;top:6rem}
+.servicos__intro .lide{margin-bottom:1.75rem}
+.servicos__lista{list-style:none;padding:0}
+
+.servico{
+  position:relative;isolation:isolate;
+  padding-bottom:2.2rem;margin-bottom:1.7rem;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='10' viewBox='0 0 120 10'%3E%3Cpath d='M0 5 Q15 0 30 5 T60 5 T90 5 T120 5' fill='none' stroke='%230d1244' stroke-opacity='.4' stroke-width='1.5'/%3E%3C/svg%3E") repeat-x left bottom/120px 10px;
+}
+.servico:last-child{margin-bottom:0}
+.servico h3{
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(1.1rem,2vw,1.45rem);line-height:1.25;letter-spacing:-.01em;
+  margin-bottom:.55rem;
+}
+.servico p{font-size:1.08rem;line-height:1.6;max-width:52ch;color:rgba(13,18,68,.82)}
+
+/* mancha de tinta que segue o ponteiro (js/servicos.js) */
+.servico::before{
+  content:"";position:absolute;z-index:-1;
+  inset:-8px -14px 4px;border-radius:26px;
+  background:radial-gradient(circle 260px at var(--mx,50%) var(--my,50%),var(--mancha,rgba(155,130,255,.3)),transparent 72%);
+  opacity:0;transition:opacity .45s ease;
+}
+.servico:hover::before{opacity:1}
+.servico:nth-child(5n+1){--mancha:rgba(47,224,255,.32)}
+.servico:nth-child(5n+2){--mancha:rgba(255,79,160,.22)}
+.servico:nth-child(5n+3){--mancha:rgba(127,240,196,.5)}
+.servico:nth-child(5n+4){--mancha:rgba(255,201,77,.4)}
+.servico:nth-child(5n+5){--mancha:rgba(155,130,255,.3)}
+
+/* ---------- reservar ---------- */
+.reservar{
+  position:relative;
+  background:var(--fundo);
+  padding-block:clamp(4rem,9vw,8rem) calc(var(--borda) + clamp(2rem,5vw,4rem));
+}
+.reservar__grade{
+  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);
+  gap:clamp(2rem,6vw,5rem);align-items:start;
+}
+.reservar__direto{margin-top:1.5rem;color:rgba(233,248,244,.86)}
+.reservar__direto a{color:var(--sol);text-underline-offset:.3em}
+
+/* ---------- rodapé ---------- */
+.rodape{
+  position:relative;overflow:hidden;
+  background:var(--profundo);
+  padding-block:clamp(1.5rem,4vw,3rem) clamp(2.5rem,5vw,4rem);
+}
+/* logo gigante: a "maré" sobe dentro das letras conforme o rodapé aparece.
+   Duas camadas com a mesma logo: o contorno e, por cima, o preenchimento
+   colorido recortado de baixo para cima (--nivel, definido em js/rolagem.js) */
+.rodape__gigante{
+  --nivel:0%;
+  position:relative;
+  margin-bottom:clamp(1.5rem,3vw,2.5rem);
+  line-height:0;
+}
+.rodape__contorno{
+  display:block;width:100%;height:auto;aspect-ratio:var(--logo-prop);
+  fill:rgba(233,248,244,.06);
+  stroke:rgba(233,248,244,.5);stroke-width:1.2;
+}
+.rodape__mare{
+  position:absolute;inset:0;width:100%;height:100%;
+  fill:url(#grad-mare);
+  clip-path:inset(calc(100% - var(--nivel)) 0 0 0);
+}
+.rodape__linha{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.25rem 2rem}
+.rodape__marca{display:block;line-height:0;color:var(--espuma)}
+.rodape__marca svg{display:block;height:1.4rem;width:auto;aspect-ratio:var(--logo-prop);fill:currentColor}
+.rodape nav{display:flex;flex-wrap:wrap;gap:.5rem 1.5rem}
+.rodape nav a{font-family:var(--display);font-weight:500;font-size:.82rem;text-decoration:none}
+.rodape nav a:hover{text-decoration:underline;text-underline-offset:.4em}
+.rodape__nota{width:100%;font-size:.95rem;color:rgba(233,248,244,.6)}
+
+/* ---------- responsivo ---------- */
+@media (max-width:900px){
+  .servicos__grade,.reservar__grade{grid-template-columns:1fr}
+  .servicos__intro{position:static}
+}
+@media (max-width:820px){
+  .mares{grid-template-columns:1fr}
+  .mare p:last-child{max-width:52ch}
+}
+@media (max-width:640px){
+  .hero{padding-top:9rem}
+  .hero__dica{top:4.6rem;bottom:auto;right:auto;left:var(--pad)}
+}
+
+/* ==========================================================
+   05 · MOVIMENTO
+   Revelações, auroras e keyframes. Tudo aqui respeita
+   prefers-reduced-motion.
+   ========================================================== */
+
+/* ---------- revelação por tinta ----------
+   Em vez de subir e aparecer, o bloco se abre como uma gota
+   de tinta espalhando a partir de um ponto (--rx).
+   js/revelar.js adiciona .revelado ao entrar na tela e
+   .pronto quando a transição termina. */
+@media (prefers-reduced-motion:no-preference){
+  .js [data-revelar]{
+    --rx:8%;
+    clip-path:circle(0% at var(--rx) 60%);
+    opacity:.001;
+    transition:
+      clip-path 1.15s var(--curva-mare) calc(var(--i,0) * 120ms),
+      opacity .8s ease calc(var(--i,0) * 120ms);
+  }
+  .js [data-revelar].revelado{
+    clip-path:circle(150% at var(--rx) 60%);
+    opacity:1;
+  }
+  .js [data-revelar].pronto{
+    clip-path:none;
+    transition:none;
+  }
+}
+
+/* ---------- auroras: brilhos lentos atrás do conteúdo escuro ---------- */
+.aurora{
+  position:absolute;inset:0;z-index:0;
+  overflow:hidden;pointer-events:none;
+}
+.aurora i{
+  position:absolute;display:block;border-radius:50%;
+  width:50vw;height:50vw;max-width:760px;max-height:760px;
+  background:radial-gradient(closest-side,var(--cor),transparent);
+  will-change:transform;
+}
+.aurora i:nth-child(1){--cor:rgba(155,130,255,.30);top:-18%;right:-14%}
+.aurora i:nth-child(2){--cor:rgba(255,79,160,.20);bottom:-22%;left:-16%}
+.aurora i:nth-child(3){--cor:rgba(47,224,255,.18);top:30%;left:35%;width:32vw;height:32vw}
+
+.aurora.fora{display:none}   /* seção fora da tela */
+
+/* ---------- keyframes ---------- */
+/* (a deriva das auroras é calculada em js/economia, não por keyframes) */
+@keyframes espuma{
+  to{stroke-dashoffset:-140}
+}
+@keyframes fluir{
+  to{background-position-x:120px}
+}
+@keyframes gota{
+  from{transform:scale(.2);opacity:.9}
+  to  {transform:scale(11);opacity:0}
+}
+@keyframes eq{
+  0%,100%{transform:scaleY(.25)}
+  50%    {transform:scaleY(1)}
+}
+
+/* separadores da lista de serviços fluem ao passar o mouse */
+.servico:hover{animation:fluir 1.6s linear infinite}
+
+/* ---------- movimento reduzido ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation:none !important;
+    transition:none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ==========================================================
+     DEFINIÇÕES SVG (não aparecem na tela)
+     - #logo-kawave ... a logo vetorizada; usada no topo, hero e rodapé
+     - #ondular ....... filtro que faz a logo ondular (js/marca.js)
+     - #grad-mare ..... cores da maré que sobe no rodapé
+     - #massa-* / #crista-* ... formas das ondas entre seções
+     ========================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="logo-kawave" viewBox="0 0 367.07 66.58">
+      <!-- O caminho abaixo vem de assets/logo-kawave.svg. Para trocar a logo,
+           cole aqui o valor "d" do novo SVG e ajuste o viewBox e --logo-prop (css/01-tokens.css). -->
+      <path fill-rule="evenodd" vector-effect="non-scaling-stroke" d="M282.15 56.62 L280.32 56.80 L274.47 56.73 L273.77 56.56 L273.14 56.25 L272.60 55.79 L271.99 55.02 L268.45 48.74 L260.62 34.27 L245.28 5.34 L244.00 2.77 L243.68 1.88 L243.68 1.03 L243.86 0.68 L244.15 0.41 L244.86 0.14 L245.94 0.04 L256.56 0.04 L258.12 0.27 L258.65 0.52 L259.18 0.97 L259.80 1.86 L261.76 5.74 L275.75 34.51 L277.26 37.18 L277.69 37.62 L278.08 37.76 L278.41 37.69 L278.81 37.41 L279.69 36.15 L287.41 21.64 L296.34 4.52 L297.87 1.82 L298.51 0.94 L299.05 0.50 L299.69 0.22 L301.51 0.01 L311.50 0.05 L312.53 0.23 L313.18 0.70 L313.37 1.16 L313.37 1.69 L313.19 2.36 L312.77 3.25 L306.69 13.98 L297.57 30.86 L293.68 37.81 L284.93 53.89 L284.21 55.05 L283.58 55.80 L282.92 56.31ZM365.50 56.58 L364.68 56.75 L363.45 56.79 L320.06 56.80 L318.25 56.59 L317.62 56.29 L317.19 55.92 L316.71 55.02 L316.56 53.45 L316.56 3.69 L316.71 1.74 L316.96 1.10 L317.39 0.59 L318.32 0.15 L319.90 0.00 L363.41 0.00 L365.48 0.16 L366.10 0.43 L366.52 0.79 L366.88 1.48 L367.06 2.55 L367.04 9.66 L366.93 10.50 L366.69 11.14 L366.35 11.58 L365.79 11.94 L364.99 12.15 L363.76 12.23 L334.40 12.29 L333.41 12.53 L332.86 13.01 L332.54 13.84 L332.45 15.05 L332.54 20.27 L332.83 21.10 L333.45 21.63 L334.82 21.83 L346.44 21.82 L355.67 21.94 L356.64 22.27 L357.24 22.90 L357.53 23.78 L357.64 25.26 L357.66 30.63 L357.57 32.24 L357.19 33.32 L356.82 33.72 L356.34 33.99 L355.54 34.18 L354.31 34.24 L334.81 34.26 L333.86 34.37 L333.17 34.67 L332.88 34.97 L332.64 35.45 L332.46 36.75 L332.49 42.11 L332.61 42.93 L332.88 43.51 L333.55 44.00 L334.82 44.18 L363.70 44.20 L364.93 44.27 L365.72 44.47 L366.21 44.76 L366.58 45.17 L366.84 45.68 L367.00 46.37 L367.07 53.35 L366.99 54.58 L366.74 55.49 L366.28 56.13ZM52.02 56.62 L50.32 56.79 L40.70 56.79 L39.36 56.63 L38.37 56.20 L37.49 55.54 L36.23 54.34 L18.98 36.80 L17.34 35.31 L16.87 35.01 L16.42 34.89 L16.02 34.99 L15.74 35.32 L15.48 36.52 L15.45 53.76 L15.30 55.08 L14.91 55.91 L14.50 56.30 L13.89 56.61 L13.19 56.76 L12.09 56.81 L2.60 56.77 L1.43 56.54 L0.69 56.04 L0.37 55.58 L0.17 55.03 L0.02 53.45 L0.00 3.82 L0.15 1.74 L0.39 1.09 L0.73 0.66 L1.50 0.23 L2.56 0.07 L12.43 0.04 L14.10 0.26 L14.59 0.52 L14.97 0.91 L15.32 1.74 L15.44 2.96 L15.49 20.19 L15.74 21.22 L16.05 21.51 L16.38 21.57 L17.15 21.32 L18.23 20.55 L40.45 1.76 L41.43 1.00 L42.28 0.50 L43.32 0.16 L44.54 0.04 L57.17 0.02 L59.00 0.12 L59.52 0.28 L59.90 0.57 L60.08 0.96 L60.00 1.52 L59.65 2.08 L58.98 2.77 L33.61 24.59 L31.13 26.83 L30.72 27.38 L30.54 27.88 L30.54 28.29 L30.71 28.80 L31.58 29.94 L48.85 47.47 L52.80 51.63 L53.23 52.35 L53.47 53.04 L53.58 53.88 L53.54 54.85 L53.36 55.52 L53.07 55.99 L52.65 56.35ZM69.75 56.57 L68.93 56.74 L67.82 56.80 L57.59 56.75 L56.68 56.54 L56.15 56.20 L55.84 55.67 L55.79 55.03 L55.95 54.36 L56.35 53.46 L59.29 48.11 L84.72 3.24 L86.09 1.19 L86.61 0.69 L87.22 0.34 L87.90 0.15 L88.88 0.05 L95.63 0.05 L97.08 0.22 L98.03 0.67 L98.62 1.26 L99.14 2.08 L105.11 14.14 L106.51 16.47 L107.18 17.14 L108.02 17.52 L109.10 17.68 L111.22 17.72 L115.21 17.70 L116.42 17.59 L117.26 17.21 L117.47 16.90 L117.56 16.42 L117.40 15.53 L116.88 14.27 L111.03 2.33 L110.82 1.46 L111.05 0.71 L111.44 0.39 L111.95 0.19 L113.64 0.04 L122.89 0.05 L123.98 0.17 L124.86 0.49 L125.74 1.28 L126.52 2.53 L135.64 21.22 L140.65 31.11 L141.36 32.20 L141.73 32.50 L142.05 32.59 L142.44 32.48 L142.87 32.05 L144.32 29.51 L153.67 10.94 L154.38 9.96 L155.23 9.35 L155.91 9.14 L156.88 9.04 L162.24 9.05 L163.53 9.31 L164.39 9.89 L165.14 10.98 L167.30 15.19 L174.18 29.15 L175.65 31.66 L176.09 32.05 L176.60 32.13 L177.26 31.72 L177.87 30.86 L186.71 14.40 L193.68 1.88 L194.47 0.82 L195.35 0.27 L196.53 0.06 L205.77 0.03 L207.56 0.22 L208.10 0.53 L208.37 0.93 L208.44 1.64 L208.21 2.42 L205.74 6.87 L195.84 24.31 L195.00 25.54 L193.20 27.78 L190.29 30.86 L187.47 33.52 L184.92 35.72 L181.88 38.11 L177.35 41.19 L173.32 43.44 L171.05 44.43 L169.53 44.98 L168.61 45.11 L167.75 44.89 L167.05 44.31 L166.18 42.97 L160.53 31.88 L160.01 31.14 L159.53 30.84 L159.20 30.82 L158.88 30.97 L158.35 31.62 L152.39 43.23 L151.50 44.71 L150.87 45.43 L150.30 45.81 L149.52 46.00 L148.69 45.96 L147.63 45.66 L142.61 43.80 L137.95 41.42 L134.29 39.06 L128.65 34.94 L124.68 32.36 L120.53 30.09 L117.90 28.96 L112.83 27.22 L111.24 26.94 L108.13 26.61 L106.14 26.51 L104.14 26.56 L101.03 26.88 L98.00 27.39 L97.03 27.26 L96.40 26.81 L95.76 25.94 L93.52 21.63 L92.88 20.59 L92.28 19.98 L91.69 19.84 L91.35 19.97 L90.95 20.30 L90.00 21.70 L83.44 33.73 L71.71 54.72 L70.76 55.97ZM175.12 66.58 L174.85 66.46 L174.81 66.25 L175.22 65.55 L177.73 63.20 L180.54 60.36 L183.31 57.31 L187.38 52.41 L190.34 48.56 L197.15 39.03 L199.69 35.64 L201.23 33.84 L204.40 30.48 L206.62 28.47 L208.68 26.86 L211.66 25.04 L213.34 24.23 L215.71 23.47 L217.54 23.09 L220.75 22.62 L222.25 22.61 L223.98 22.79 L226.94 23.27 L228.72 23.78 L229.32 24.07 L229.66 24.36 L229.76 24.62 L229.63 24.95 L228.89 25.49 L225.89 26.94 L224.90 27.68 L223.71 28.78 L222.47 30.18 L221.38 31.84 L220.92 32.90 L220.98 33.64 L221.21 33.91 L221.66 34.12 L222.94 34.24 L232.80 34.25 L233.83 34.09 L234.39 33.73 L234.57 33.12 L234.40 32.38 L232.20 28.23 L231.92 27.48 L231.89 26.98 L232.05 26.58 L232.50 26.30 L234.29 26.21 L234.84 26.08 L235.09 25.81 L235.10 25.42 L234.85 24.88 L234.31 24.25 L232.04 22.32 L230.50 21.27 L227.66 19.70 L226.29 19.11 L224.39 18.52 L222.56 18.15 L218.83 17.75 L214.14 17.92 L213.43 17.73 L213.02 17.27 L213.02 16.60 L213.41 15.63 L220.48 2.05 L221.03 1.24 L221.63 0.67 L222.36 0.29 L223.18 0.11 L226.04 0.03 L232.02 0.09 L233.26 0.48 L233.73 0.83 L234.19 1.37 L236.20 4.80 L237.57 7.45 L244.23 19.43 L251.53 32.89 L255.48 40.39 L262.10 52.52 L262.79 53.98 L263.03 54.88 L262.95 55.62 L262.61 56.14 L261.95 56.55 L261.15 56.74 L251.04 56.81 L249.81 56.72 L249.00 56.50 L248.19 56.01 L247.48 55.20 L244.05 49.14 L242.93 47.36 L242.08 46.56 L241.10 46.21 L239.25 46.11 L212.39 46.19 L211.28 46.55 L210.33 47.42 L206.05 54.70 L205.54 55.36 L205.01 55.77 L204.50 55.96 L203.80 56.00 L200.74 55.59 L199.00 55.59 L195.80 56.14 L193.66 56.80 L192.15 57.39 L190.71 58.11 L186.99 60.15 L180.80 63.87 L176.96 65.93 L175.87 66.43ZM156.70 65.13 L154.45 65.19 L151.45 65.10 L149.20 64.94 L147.35 64.68 L143.71 63.84 L138.63 61.80 L136.74 60.85 L132.99 58.63 L129.31 56.04 L121.44 50.11 L117.03 47.27 L113.29 45.29 L111.82 44.62 L107.93 43.29 L104.93 42.43 L102.72 42.06 L99.60 41.88 L95.98 41.93 L93.12 42.19 L89.63 43.11 L85.98 44.37 L84.50 45.02 L81.38 46.67 L80.66 46.72 L80.53 46.54 L80.55 46.26 L81.04 45.34 L82.21 43.90 L84.24 41.70 L86.32 39.72 L89.76 37.03 L92.97 35.13 L94.67 34.35 L97.02 33.50 L101.26 32.46 L104.11 32.16 L107.73 32.23 L109.71 32.50 L113.48 33.34 L116.81 34.39 L118.99 35.32 L122.09 36.91 L123.70 37.86 L126.42 39.62 L132.22 43.72 L136.71 46.66 L140.74 48.89 L145.66 50.97 L148.52 51.85 L153.78 52.90 L157.39 53.11 L161.64 52.98 L163.61 52.69 L168.35 51.57 L170.10 50.94 L174.74 48.85 L179.27 46.23 L183.10 43.66 L187.04 40.82 L192.00 36.88 L192.73 36.53 L193.14 36.61 L193.22 36.84 L193.12 37.26 L192.48 38.36 L190.09 41.70 L185.50 47.46 L180.26 53.16 L177.52 55.71 L175.13 57.72 L173.00 59.25 L169.73 61.30 L168.17 62.09 L164.63 63.64 L163.10 64.14 L160.54 64.71 L158.69 64.98Z"/>
+    </symbol>
+
+    <filter id="ondular" x="-8%" y="-25%" width="116%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.005 0.02" numOctaves="1" seed="4" result="ruido"/>
+      <feDisplacementMap in="SourceGraphic" in2="ruido" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <linearGradient id="grad-mare" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#2fe0ff"/>
+      <stop offset="0.5" stop-color="#9b82ff"/>
+      <stop offset="1" stop-color="#ff4fa0"/>
+    </linearGradient>
+
+    <!-- swell longo -->
+    <path id="massa-c" fill="currentColor" d="M0 62 C260 -4 500 -4 760 56 S1200 118 1440 48 V100 H0Z"/>
+    <path id="crista-c" fill="none" style="stroke:var(--crista)" stroke-width="2" vector-effect="non-scaling-stroke" d="M0 62 C260 -4 500 -4 760 56 S1200 118 1440 48"/>
+    <!-- ondas médias -->
+    <path id="massa-a" fill="currentColor" d="M0 55 Q90 5 180 55 T360 55 T540 55 T720 55 T900 55 T1080 55 T1260 55 T1440 55 V100 H0Z"/>
+    <path id="crista-a" fill="none" style="stroke:var(--crista)" stroke-width="2" vector-effect="non-scaling-stroke" d="M0 55 Q90 5 180 55 T360 55 T540 55 T720 55 T900 55 T1080 55 T1260 55 T1440 55"/>
+    <!-- ondulação miúda -->
+    <path id="massa-b" fill="currentColor" d="M0 52 Q60 12 120 52 T240 52 T360 52 T480 52 T600 52 T720 52 T840 52 T960 52 T1080 52 T1200 52 T1320 52 T1440 52 V100 H0Z"/>
+    <path id="crista-b" fill="none" style="stroke:var(--crista)" stroke-width="2" vector-effect="non-scaling-stroke" d="M0 52 Q60 12 120 52 T240 52 T360 52 T480 52 T600 52 T720 52 T840 52 T960 52 T1080 52 T1200 52 T1320 52 T1440 52"/>
+  </defs>
+</svg>
+
+<a class="pular" href="#som">Pular para o conteúdo</a>
+<div class="cursor" aria-hidden="true"><div class="cursor__anel"></div></div>
+
+<header class="topo">
+  <a class="topo__logo" href="#topo" aria-label="Kawave, voltar ao topo">
+    <svg viewBox="0 0 367.07 66.58" aria-hidden="true" focusable="false"><use href="#logo-kawave"/></svg>
+  </a>
+  <nav aria-label="Principal">
+    <a href="#som">O som</a>
+    <a href="#servicos">Serviços</a>
+    <a class="btn btn--sol btn--pq" href="#reservar">Reservar</a>
+  </nav>
+  <svg class="topo__nivel" viewBox="0 0 1000 8" preserveAspectRatio="none" aria-hidden="true">
+    <path pathLength="1" d=""/>
+  </svg>
+</header>
+
+<main>
+
+  <!-- ======================= HERO ======================= -->
+  <section class="hero" id="topo">
+    <canvas id="agua" aria-hidden="true"></canvas>
+    <div class="hero__veu" aria-hidden="true"></div>
+
+    <div class="miolo hero__conteudo">
+      <h1 class="marca">
+        <svg viewBox="0 0 367.07 66.58" role="img" aria-label="Kawave" focusable="false"><use href="#logo-kawave"/></svg>
+        <span class="sr-only">DJ de música eletrônica</span>
+      </h1>
+      <p class="hero__frase">Eletrônica que chega como a maré: sobe devagar, quebra na pista e deixa sal na pele.</p>
+      <div class="hero__acoes">
+        <a class="btn btn--sol" href="#reservar">Reservar minha data</a>
+        <a class="btn btn--linha" href="#ouvir">Ouvir um set</a>
+      </div>
+    </div>
+
+    <p class="hero__dica" aria-hidden="true"><i></i>Toque ou arraste na água para soltar tinta.</p>
+
+    <div class="borda" style="color:var(--fundo-2);--crista:var(--ciano)" aria-hidden="true">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none"><use href="#massa-c"/><use href="#crista-c"/><use class="espuma" href="#crista-c" transform="translate(0 9)"/></svg>
+    </div>
+  </section>
+
+  <!-- ======================= O SOM ======================= -->
+  <section class="som" id="som">
+    <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <!-- fitas de texto trançadas (geradas por js/faixa.js) -->
+    <div class="faixa" role="img" aria-label="Kawave. Da baixada para o mundo."><svg aria-hidden="true" focusable="false"></svg></div>
+
+    <div class="miolo">
+      <h2 class="titulo" data-revelar>Um set é uma maré: sobe, quebra e recua.</h2>
+      <p class="lide" data-revelar>Kawave toca eletrônica com textura de água. House progressivo, techno melódico e ambient psicodélico, conduzidos ao vivo para acompanhar o clima da sua noite. Cada apresentação é montada em três movimentos.</p>
+
+      <!-- data-onda="amplitude,ciclos,velocidade,força-da-batida" (js/ondas.js) -->
+      <ol class="mares" data-revelar-grupo>
+        <li class="mare mare--baixa" data-revelar style="--rx:50%">
+          <svg class="mare__onda" data-onda="6,2.5,0.55,0.5" viewBox="0 0 320 96" aria-hidden="true"><path d=""/><path d=""/><path d=""/></svg>
+          <h3>Maré baixa</h3>
+          <p class="mare__quando">Início da noite</p>
+          <p>Downtempo e ambient com pulso suave, para receber, conversar e ver o sol descer.</p>
+        </li>
+        <li class="mare mare--cheia" data-revelar style="--rx:50%">
+          <svg class="mare__onda" data-onda="13,3.5,1.1,0.8" viewBox="0 0 320 96" aria-hidden="true"><path d=""/><path d=""/><path d=""/></svg>
+          <h3>Maré cheia</h3>
+          <p class="mare__quando">Meio da noite</p>
+          <p>House e progressive com graves redondos e melodias que abrem espaço na pista.</p>
+        </li>
+        <li class="mare mare--ressaca" data-revelar style="--rx:50%">
+          <svg class="mare__onda" data-onda="21,5.5,1.9,1.1" viewBox="0 0 320 96" aria-hidden="true"><path d=""/><path d=""/><path d=""/></svg>
+          <h3>Ressaca</h3>
+          <p class="mare__quando">Pico da pista</p>
+          <p>Techno melódico e viradas psicodélicas, com a energia subindo até a última faixa.</p>
+        </li>
+      </ol>
+
+      <div class="ouvir" id="ouvir" data-revelar>
+        <h3>Ouça antes de reservar</h3>
+        <div class="ouvir__links">
+          <a class="btn btn--linha" href="#" data-link="soundcloud">SoundCloud</a>
+          <a class="btn btn--linha" href="#" data-link="spotify">Spotify</a>
+          <a class="btn btn--linha" href="#" data-link="youtube">YouTube</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="borda" style="color:var(--agua-clara);--crista:var(--magenta)" aria-hidden="true">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none"><use href="#massa-a"/><use href="#crista-a"/><use class="espuma" href="#crista-a" transform="translate(0 9)"/></svg>
+    </div>
+  </section>
+
+  <!-- ======================= SERVIÇOS ======================= -->
+  <section class="servicos" id="servicos">
+    <div class="miolo servicos__grade">
+      <div class="servicos__intro">
+        <h2 class="titulo" data-revelar>Onde a música do Kawave chega</h2>
+        <p class="lide" data-revelar>Equipamento próprio ou do local, combinado na reserva. Duração, repertório e clima são definidos junto com você.</p>
+        <a class="btn btn--tinta" href="#reservar">Pedir orçamento</a>
+      </div>
+
+      <ul class="servicos__lista" data-revelar-grupo>
+        <li class="servico" data-revelar>
+          <h3>Festas na praia e pool parties</h3>
+          <p>Sets ao ar livre pensados para o sol, o vento e o horário. Do pôr do sol até a madrugada, com a pista respirando junto.</p>
+        </li>
+        <li class="servico" data-revelar>
+          <h3>Clubes e festivais</h3>
+          <p>Apresentações de 1 a 4 horas, com passagem de som e repertório alinhado com a produção do evento.</p>
+        </li>
+        <li class="servico" data-revelar>
+          <h3>Casamentos e cerimônias</h3>
+          <p>Trilha suave para a cerimônia e pista para a festa. A playlist do casal é o ponto de partida.</p>
+        </li>
+        <li class="servico" data-revelar>
+          <h3>Eventos corporativos e lançamentos</h3>
+          <p>Ambientação sonora para marcas, inaugurações e ativações, respeitando o volume e o horário combinados.</p>
+        </li>
+        <li class="servico" data-revelar>
+          <h3>Sets gravados e transmissões</h3>
+          <p>Mixes exclusivos para lives, podcasts, estúdios e trilhas de vídeo.</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="borda" style="color:var(--fundo);--crista:var(--violeta)" aria-hidden="true">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none"><use href="#massa-b"/><use href="#crista-b"/><use class="espuma" href="#crista-b" transform="translate(0 9)"/></svg>
+    </div>
+  </section>
+
+  <!-- ======================= RESERVAR ======================= -->
+  <section class="reservar" id="reservar">
+    <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <div class="miolo reservar__grade">
+      <div>
+        <h2 class="titulo" data-revelar>Vamos marcar a sua data?</h2>
+        <p class="lide" data-revelar>Conte o básico do evento. A conversa continua pelo WhatsApp, com disponibilidade e valores.</p>
+        <p class="reservar__direto">Prefere falar direto? <a href="#" data-link="whatsapp">Abrir o WhatsApp</a></p>
+      </div>
+
+      <form class="form" id="form-reserva" novalidate data-revelar style="--rx:30%">
+        <div class="campo">
+          <label for="nome">Seu nome</label>
+          <input id="nome" name="nome" type="text" autocomplete="name" required placeholder="Como devo te chamar?">
+        </div>
+
+        <div class="campo">
+          <label for="evento">Tipo de evento</label>
+          <select id="evento" name="evento" required>
+            <option value="" selected disabled>Escolha uma opção</option>
+            <option>Festa na praia ou pool party</option>
+            <option>Clube ou festival</option>
+            <option>Casamento ou cerimônia</option>
+            <option>Evento corporativo ou lançamento</option>
+            <option>Set gravado ou transmissão</option>
+            <option>Outro</option>
+          </select>
+        </div>
+
+        <div class="form__duas">
+          <div class="campo">
+            <label for="data">Data</label>
+            <input id="data" name="data" type="date">
+          </div>
+          <div class="campo">
+            <label for="cidade">Cidade e local</label>
+            <input id="cidade" name="cidade" type="text" autocomplete="address-level2" placeholder="Onde vai ser?">
+          </div>
+        </div>
+
+        <div class="campo">
+          <label for="detalhes">Detalhes</label>
+          <textarea id="detalhes" name="detalhes" rows="4" placeholder="Horário, número de convidados, estilo da festa"></textarea>
+        </div>
+
+        <button class="btn btn--sol" type="submit">Enviar pelo WhatsApp</button>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <div class="borda" style="color:var(--profundo);--crista:var(--sol)" aria-hidden="true">
+      <svg viewBox="0 0 1440 100" preserveAspectRatio="none"><use href="#massa-c"/><use href="#crista-c"/><use class="espuma" href="#crista-c" transform="translate(0 9)"/></svg>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="miolo">
+    <!-- logo gigante: a maré sobe dentro das letras conforme o rodapé aparece -->
+    <div class="rodape__gigante" aria-hidden="true">
+      <svg class="rodape__contorno" viewBox="0 0 367.07 66.58" focusable="false"><use href="#logo-kawave"/></svg>
+      <svg class="rodape__mare" viewBox="0 0 367.07 66.58" focusable="false"><use href="#logo-kawave"/></svg>
+    </div>
+  </div>
+
+  <div class="miolo rodape__linha">
+    <a class="rodape__marca" href="#topo" aria-label="Kawave, voltar ao topo">
+      <svg viewBox="0 0 367.07 66.58" aria-hidden="true" focusable="false"><use href="#logo-kawave"/></svg>
+    </a>
+    <nav aria-label="Redes e plataformas">
+      <a href="#" data-link="instagram">Instagram</a>
+      <a href="#" data-link="soundcloud">SoundCloud</a>
+      <a href="#" data-link="spotify">Spotify</a>
+      <a href="#" data-link="youtube">YouTube</a>
+    </nav>
+    <p class="rodape__nota">© <span id="ano">2026</span> Kawave. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<!-- player do set: abre quando o botão "Sentir a batida" é clicado (js/batida.js).
+     O vídeo é definido em Kawave.config.set (js/config.js). -->
+<aside class="set" id="set" aria-label="Set do Kawave" hidden>
+  <div class="set__topo">
+    <p class="set__titulo">Set do Kawave</p>
+    <button class="set__fechar" type="button" aria-label="Fechar o set e parar a música">&times;</button>
+  </div>
+  <div class="set__video"><div id="set-player"></div></div>
+  <p class="set__aviso" role="status" aria-live="polite" hidden></p>
+</aside>
+
+<!-- botão da batida: toca o set do YouTube e faz a página pulsar no ritmo -->
+<button class="batida" id="batida" type="button" aria-pressed="false" aria-controls="set" aria-expanded="false" hidden>
+  <span class="batida__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  <span class="batida__rotulo">Sentir a batida</span>
+</button>
+
+<script>
+/* ==========================================================
+   config.js · >>> EDITE AQUI: contatos, links e o set <<<
+   ========================================================== */
+window.Kawave = window.Kawave || {};
+
+Kawave.config = {
+  whatsapp:   '5515996929096',              // DDI + DDD + número, só dígitos (ex.: 5511999999999)
+  instagram:  'https://www.instagram.com/kawavedj/',     // troque pelo perfil
+  soundcloud: 'https://soundcloud.com/',    // troque pelo perfil
+  spotify:    'https://open.spotify.com/',  // troque pelo perfil
+  youtube:    'https://www.youtube.com/@kawavedj',        // troque pelo canal
+
+  // set que toca no botão "Sentir a batida" (player do YouTube)
+  set: {
+    link:   'https://www.youtube.com/watch?v=sfnm77HYGHM',  // cole aqui o link de outro vídeo, se quiser trocar
+    bpm:    124,    // andamento do set: as gotas e as ondas pulsam nesse ritmo (ajuste para o BPM real)
+    atraso: 0.15    // ajuste fino em segundos: aumente se a imagem pulsar antes do som
+  }
+};
+
+/* ==========================================================
+   nucleo.js · o que todos os módulos compartilham
+   - utilitários pequenos ($, $$, limitar, aleatorio...)
+   - UM laço de animação (requestAnimationFrame) para a página toda
+   - um barramento de eventos: Kawave.emitir / Kawave.ouvir
+   ========================================================== */
+Kawave.nucleo = (() => {
+  const reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ponteiroFino = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* ---------- utilitários ---------- */
+  const $ = (seletor, raiz = document) => raiz.querySelector(seletor);
+  const $$ = (seletor, raiz = document) => Array.from(raiz.querySelectorAll(seletor));
+  const limitar = (v, min, max) => Math.min(max, Math.max(min, v));
+  const aleatorio = (min, max) => min + Math.random() * (max - min);
+  const debounce = (fn, ms = 120) => {
+    let t;
+    return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+  };
+
+  /* ---------- laço de animação único ---------- */
+  const tarefas = new Set();
+  const falhas = new WeakSet();       // tarefas que já registraram erro (avisa uma vez só)
+  let rodando = false;
+  let ultimo = 0;
+
+  function quadro(agora) {
+    if (document.hidden) { rodando = false; return; }
+    const dt = Math.min((agora - ultimo) / 1000, 0.05);
+    ultimo = agora;
+    tarefas.forEach(fn => {
+      try { fn(agora, dt); }
+      catch (erro) {                    // uma animação com defeito não pode parar a página inteira
+        if (!falhas.has(fn)) { falhas.add(fn); console.error('[Kawave] erro numa animação:', erro); }
+      }
+    });
+    requestAnimationFrame(quadro);
+  }
+
+  function iniciar() {
+    if (rodando || reduzir) return;
+    rodando = true;
+    ultimo = performance.now();
+    requestAnimationFrame(quadro);
+  }
+
+  // registra uma função chamada a cada quadro: fn(agora, dt)
+  // fpsMax (opcional): limita a frequência da tarefa; o dt entregue acumula o tempo pulado
+  function adicionar(fn, fpsMax = 0) {
+    let tarefa = fn;
+    if (fpsMax > 0) {
+      const intervalo = 1000 / fpsMax;
+      let ultimaExecucao = 0, acumulado = 0;
+      tarefa = (agora, dt) => {
+        acumulado += dt;
+        if (agora - ultimaExecucao < intervalo - 1) return;
+        ultimaExecucao = agora;
+        const passo = acumulado;
+        acumulado = 0;
+        fn(agora, passo);
+      };
+    }
+    tarefas.add(tarefa);
+    iniciar();
+    return () => tarefas.delete(tarefa);
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) iniciar();
+  });
+
+  // avisa quando um elemento entra ou sai da tela
+  function observarVisivel(el, aoMudar, opcoes = {}) {
+    if (!el) return null;
+    const io = new IntersectionObserver(([e]) => aoMudar(e.isIntersecting), opcoes);
+    io.observe(el);
+    return io;
+  }
+
+  return { reduzir, ponteiroFino, $, $$, limitar, aleatorio, debounce, adicionar, observarVisivel };
+})();
+
+/* ---------- barramento de eventos ---------- */
+Kawave.emitir = (nome, detalhe) =>
+  window.dispatchEvent(new CustomEvent('kawave:' + nome, { detail: detalhe }));
+
+Kawave.ouvir = (nome, fn) =>
+  window.addEventListener('kawave:' + nome, fn);
+
+/* ==========================================================
+   rolagem.js · o que a rolagem da página faz
+   - mede a velocidade (outros módulos usam para mexer na água)
+   - liga a classe .rolou no <body> (logo e fundo do topo)
+   - desenha a linha de maré do topo conforme o progresso
+   - sobe a "maré" dentro do nome gigante do rodapé
+   ========================================================== */
+Kawave.rolagem = (() => {
+  const { reduzir, limitar, $ } = Kawave.nucleo;
+
+  let velocidadeAtual = 0;
+  let progressoAtual = 0;
+  let rolou = false;
+  let anterior = 0;
+  let pendente = false;
+  let linhaMare = null;
+  let gigante = null;
+  let ultimoNivel = -1;
+
+  function montarLinhaDoTopo() {
+    linhaMare = $('.topo__nivel path');
+    if (!linhaMare) return;
+    let d = 'M0 4 Q12.5 0 25 4';
+    for (let x = 50; x <= 1000; x += 25) d += ` T${x} 4`;
+    linhaMare.setAttribute('d', d);
+  }
+
+  function atualizar() {
+    const y = window.scrollY;
+    const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    progressoAtual = limitar(y / max, 0, 1);
+
+    const passou = y > innerHeight * 0.55;
+    if (passou !== rolou) {
+      rolou = passou;
+      document.body.classList.toggle('rolou', rolou);
+    }
+
+    if (linhaMare) linhaMare.style.strokeDashoffset = (1 - progressoAtual).toFixed(4);
+
+    if (gigante) {
+      const r = gigante.getBoundingClientRect();
+      const p = limitar((innerHeight - r.top) / (r.height * 1.25), 0, 1);
+      if (Math.abs(p - ultimoNivel) > 0.002) {
+        ultimoNivel = p;
+        gigante.style.setProperty('--nivel', (p * 100).toFixed(1) + '%');
+      }
+    }
+  }
+
+  function pedirAtualizacao() {
+    if (pendente) return;
+    pendente = true;
+    requestAnimationFrame(() => { pendente = false; atualizar(); });
+  }
+
+  // velocidade suavizada em px/s (positiva = descendo)
+  function medirVelocidade(agora, dt) {
+    const atual = window.scrollY;
+    const v = (atual - anterior) / Math.max(dt, 0.001);
+    anterior = atual;
+    velocidadeAtual += (v - velocidadeAtual) * (1 - Math.exp(-dt * 7));
+    if (Math.abs(velocidadeAtual) < 0.5) velocidadeAtual = 0;
+  }
+
+  function iniciar() {
+    montarLinhaDoTopo();
+    gigante = $('.rodape__gigante');
+    anterior = window.scrollY;
+    addEventListener('scroll', pedirAtualizacao, { passive: true });
+    addEventListener('resize', pedirAtualizacao);
+    atualizar();
+    if (!reduzir) Kawave.nucleo.adicionar(medirVelocidade);
+  }
+
+  return {
+    iniciar,
+    velocidade: () => velocidadeAtual,
+    progresso: () => progressoAtual
+  };
+})();
+
+/* ==========================================================
+   tinta.js · água de suminagashi no hero (canvas 2D)
+
+   Cada gota é um polígono. Uma gota nova empurra as antigas
+   para fora (fórmula clássica de marbling) e uma correnteza
+   incompressível mantém a superfície em movimento.
+
+   Reage a:
+   - toque / arraste ......... solta tinta
+   - mover o ponteiro ........ ondas na superfície
+   - rolar a página .......... redemoinho (a água é mexida)
+   - batida (som ligado) ..... gotas no ritmo da música
+   ========================================================== */
+Kawave.tinta = (() => {
+  const { reduzir, limitar, aleatorio, $ } = Kawave.nucleo;
+
+  const TAU = Math.PI * 2;
+  const AGUA = '#0d1244';
+  const TINTAS = ['#2fe0ff', '#ff4fa0', '#7ff0c4', '#ffc94d', '#8a6bff'];
+  const PONTOS = 132;      // pontos por gota (quanto mais, mais suave)
+  const MAX_GOTAS = 84;    // limite de gotas vivas
+
+  let hero, canvas, ctx;
+  let W = 0, H = 0;
+  let visivel = true;
+  let batidaLigada = false;
+  let ordemAtual = 0;      // ordem de criação: quem é mais novo empurra quem é mais velho
+  let corAtual = Math.floor(Math.random() * TINTAS.length);
+  let proximaGota = 0;
+
+  const gotas = [];        // polígonos
+  const crescendo = [];    // gotas em expansão
+  const ondas = [];        // anéis na superfície
+
+  /* ---------- medidas ---------- */
+  function medir() {
+    const r = hero.getBoundingClientRect();
+    W = r.width;
+    H = r.height;
+    const escala = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(W * escala);
+    canvas.height = Math.round(H * escala);
+    ctx.setTransform(escala, 0, 0, escala, 0, 0);
+    if (reduzir) pintar();
+  }
+
+  const escalaDaTela = () => limitar(W / 1100, 0.6, 1);
+
+  /* ---------- gotas ---------- */
+  // Uma gota só empurra as que já existiam antes dela (ordem menor ou igual).
+  // Ela entra na água quando chega a hora de crescer (atraso).
+  function novaGota(cx, cy, raio2Total, atraso, tinta) {
+    const r0 = 1.5;
+    const pts = new Float32Array(PONTOS * 2);
+    for (let i = 0; i < PONTOS; i++) {
+      const a = (i / PONTOS) * TAU;
+      pts[i * 2] = cx + Math.cos(a) * r0;
+      pts[i * 2 + 1] = cy + Math.sin(a) * r0;
+    }
+    const g = {
+      pts, tinta, morre: 0,
+      ordem: ordemAtual++,
+      c1: TINTAS[corAtual % TINTAS.length],
+      c2: TINTAS[(corAtual + 2) % TINTAS.length]
+    };
+    if (tinta) corAtual++;
+    crescendo.push({
+      g, cx, cy,
+      total: raio2Total - r0 * r0,
+      feito: 0,
+      iniciada: false,
+      t0: performance.now() + atraso,
+      dur: 1100 + Math.random() * 400
+    });
+  }
+
+  // anéis concêntricos com larguras parecidas
+  function aglomerado(cx, cy, rho, aneis) {
+    for (let i = 0; i < aneis; i++) {
+      novaGota(cx, cy, rho * rho * (2 * (aneis - i) + 1), i * 110, i % 2 === 0);
+    }
+  }
+
+  // empurra os pontos das gotas mais antigas (ou da própria) para longe do centro
+  function empurrar(cx, cy, delta, ordem) {
+    for (let k = 0; k < gotas.length; k++) {
+      if (gotas[k].ordem > ordem) continue;
+      const p = gotas[k].pts;
+      for (let i = 0; i < p.length; i += 2) {
+        const dx = p[i] - cx, dy = p[i + 1] - cy;
+        const f = Math.sqrt(1 + delta / (dx * dx + dy * dy + 0.01));
+        p[i] = cx + dx * f;
+        p[i + 1] = cy + dy * f;
+      }
+    }
+  }
+
+  // percorre na ordem de criação (importante para o resultado final dos anéis)
+  function crescer(agora) {
+    for (let i = 0; i < crescendo.length; i++) {
+      const c = crescendo[i];
+      if (agora < c.t0) continue;
+      if (!c.iniciada) { c.iniciada = true; gotas.push(c.g); }
+      const t = Math.min(1, (agora - c.t0) / c.dur);
+      const e = 1 - Math.pow(1 - t, 3);
+      const alvo = c.total * e;
+      const delta = alvo - c.feito;
+      if (delta > 0) { empurrar(c.cx, c.cy, delta, c.g.ordem); c.feito = alvo; }
+      if (t >= 1) { crescendo.splice(i, 1); i--; }
+    }
+  }
+
+  /* ---------- correnteza + redemoinho ---------- */
+  function correnteza(t, dt) {
+    const A = 1800;
+    const kx = 0.0031, ky = 0.0042, kx2 = 0.0071, ky2 = 0.0057;
+
+    // rolar a página gira a água ao redor de um ponto (mais forte perto do centro)
+    const giro = limitar(Kawave.rolagem.velocidade() / 900, -1.4, 1.4) * 0.55 * dt;
+    const gx = W * 0.62, gy = H * 0.45;
+
+    for (let k = 0; k < gotas.length; k++) {
+      const p = gotas[k].pts;
+      for (let i = 0; i < p.length; i += 2) {
+        let x = p[i], y = p[i + 1];
+
+        const a = x * kx + t * 0.11;
+        const b = y * ky - t * 0.08;
+        const c = x * kx2 - y * ky2 + t * 0.15;
+        x += A * (ky * Math.sin(a) * Math.cos(b) - 0.5 * ky2 * Math.cos(c)) * dt;
+        y += -A * (kx * Math.cos(a) * Math.sin(b) + 0.5 * kx2 * Math.cos(c)) * dt;
+
+        if (giro > 0.0002 || giro < -0.0002) {
+          const dx = x - gx, dy = y - gy;
+          const d = dx / 500, e = dy / 500;
+          const ang = giro / (1 + d * d + e * e);
+          const cs = Math.cos(ang), sn = Math.sin(ang);
+          x = gx + dx * cs - dy * sn;
+          y = gy + dx * sn + dy * cs;
+        }
+        p[i] = x;
+        p[i + 1] = y;
+      }
+    }
+  }
+
+  // as gotas mais antigas somem devagar
+  function limpar(agora) {
+    let vivas = 0;
+    for (const g of gotas) if (!g.morre) vivas++;
+    if (vivas > MAX_GOTAS) {
+      for (const g of gotas) { if (!g.morre) { g.morre = agora; break; } }
+    }
+    for (let i = gotas.length - 1; i >= 0; i--) {
+      if (gotas[i].morre && agora - gotas[i].morre > 1600) gotas.splice(i, 1);
+    }
+  }
+
+  /* ---------- ondas na superfície ---------- */
+  function marolar(x, y, raio = 80, dur = 1500) {
+    if (reduzir) return;
+    ondas.push({ x, y, r: raio, dur, t0: performance.now() });
+    if (ondas.length > 40) ondas.shift();
+  }
+
+  function pintarOndas(agora) {
+    for (let i = ondas.length - 1; i >= 0; i--) {
+      const o = ondas[i];
+      const t = Math.max(0, (agora - o.t0) / o.dur);
+      if (t >= 1) { ondas.splice(i, 1); continue; }
+      const e = 1 - Math.pow(1 - t, 2.2);
+      const raio = 4 + e * o.r;
+      ctx.lineWidth = 1.8 * (1 - t) + 0.4;
+      ctx.strokeStyle = `rgba(233,248,244,${(0.6 * (1 - t)).toFixed(3)})`;
+      ctx.beginPath(); ctx.arc(o.x, o.y, raio, 0, TAU); ctx.stroke();
+      if (t > 0.12) {
+        ctx.strokeStyle = `rgba(47,224,255,${(0.35 * (1 - t)).toFixed(3)})`;
+        ctx.beginPath(); ctx.arc(o.x, o.y, raio * 0.66, 0, TAU); ctx.stroke();
+      }
+    }
+  }
+
+  /* ---------- desenho ---------- */
+  function caminho(p) {
+    const n = PONTOS;
+    ctx.beginPath();
+    ctx.moveTo((p[2 * n - 2] + p[0]) / 2, (p[2 * n - 1] + p[1]) / 2);
+    for (let i = 0; i < n; i++) {
+      const j = (i + 1) % n;
+      ctx.quadraticCurveTo(p[2 * i], p[2 * i + 1], (p[2 * i] + p[2 * j]) / 2, (p[2 * i + 1] + p[2 * j + 1]) / 2);
+    }
+    ctx.closePath();
+  }
+
+  function pintar(agora = performance.now()) {
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = AGUA;
+    ctx.fillRect(0, 0, W, H);
+
+    for (const g of gotas) {
+      const p = g.pts;
+      let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+      for (let i = 0; i < p.length; i += 2) {
+        const x = p[i], y = p[i + 1];
+        if (x < x0) x0 = x; if (x > x1) x1 = x;
+        if (y < y0) y0 = y; if (y > y1) y1 = y;
+      }
+      if (x1 < 0 || x0 > W || y1 < 0 || y0 > H) continue;
+
+      ctx.globalAlpha = g.morre ? Math.max(0, 1 - (agora - g.morre) / 1600) : 1;
+      caminho(p);
+      if (g.tinta) {
+        const gr = ctx.createLinearGradient(Math.max(x0, 0), Math.max(y0, 0), Math.min(x1, W), Math.min(y1, H));
+        gr.addColorStop(0, g.c1);
+        gr.addColorStop(1, g.c2);
+        ctx.fillStyle = gr;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(233,248,244,.42)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      } else {
+        ctx.fillStyle = AGUA;
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+    pintarOndas(agora);
+  }
+
+  /* ---------- laço ---------- */
+  function quadro(agora, dt) {
+    if (!visivel) return;
+    crescer(agora);
+    correnteza(agora / 1000, dt);
+    limpar(agora);
+
+    // sem música, a água solta uma gota sozinha de tempos em tempos
+    if (!batidaLigada && agora > proximaGota) {
+      const rho = aleatorio(10, 26) * escalaDaTela();
+      aglomerado(Math.random() * W, Math.random() * H, rho, 4 + Math.floor(Math.random() * 4));
+      proximaGota = agora + 3200 + Math.random() * 2600;
+    }
+    pintar(agora);
+  }
+
+  function soltar(x, y, rho, aneis) {
+    aglomerado(x, y, rho, aneis);
+    if (reduzir) {
+      crescer(Infinity);
+      while (gotas.length > MAX_GOTAS) gotas.shift();
+      pintar();
+    }
+  }
+
+  /* ---------- abertura: gotas florescem em sequência ---------- */
+  function semear() {
+    const esc = escalaDaTela();
+    const sementes = [
+      [0.74, 0.34, 30, 7, 350],
+      [0.42, 0.20, 20, 5, 900],
+      [0.90, 0.72, 26, 6, 1500],
+      [0.60, 0.68, 16, 5, 2200],
+      [0.12, 0.28, 18, 4, 2900]
+    ];
+    sementes.forEach(([fx, fy, rho, n, atraso]) => {
+      const fazer = () => aglomerado(fx * W, fy * H, rho * esc, n);
+      reduzir ? fazer() : setTimeout(fazer, atraso);
+    });
+  }
+
+  /* ---------- interação ---------- */
+  function ligarEventos() {
+    let arrastando = false;
+    let ux = 0, uy = 0, ultimaOnda = 0;
+    const posicao = e => {
+      const r = canvas.getBoundingClientRect();
+      return [e.clientX - r.left, e.clientY - r.top];
+    };
+
+    hero.addEventListener('pointerdown', e => {
+      if (e.target.closest('a,button')) return;
+      const [x, y] = posicao(e);
+      arrastando = true; ux = x; uy = y;
+      soltar(x, y, aleatorio(12, 22), 4 + Math.floor(Math.random() * 3));
+      marolar(x, y, 130, 1800);
+    });
+
+    hero.addEventListener('pointermove', e => {
+      const [x, y] = posicao(e);
+      if (arrastando) {
+        if (Math.hypot(x - ux, y - uy) > 46) {
+          ux = x; uy = y;
+          soltar(x, y, aleatorio(6, 11), 3);
+        }
+      } else if (!reduzir && e.pointerType === 'mouse') {
+        const agora = performance.now();
+        if (agora - ultimaOnda > 70 && Math.hypot(x - ux, y - uy) > 30) {
+          ultimaOnda = agora; ux = x; uy = y;
+          marolar(x, y, aleatorio(55, 105), 1400);
+        }
+      }
+    });
+
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev =>
+      hero.addEventListener(ev, () => { arrastando = false; })
+    );
+
+    let redim = 0;
+    addEventListener('resize', () => {
+      cancelAnimationFrame(redim);
+      redim = requestAnimationFrame(medir);
+    });
+
+    // som ligado: gotas no ritmo
+    Kawave.ouvir('batida-estado', e => { batidaLigada = e.detail.ligada; });
+    Kawave.ouvir('batida', e => {
+      if (reduzir || !visivel) return;
+      const { batida, forte } = e.detail;
+      const esc = escalaDaTela();
+      if (forte) {
+        aglomerado(aleatorio(0.15, 0.9) * W, aleatorio(0.12, 0.8) * H, aleatorio(14, 24) * esc, 5);
+      } else if (batida === 2) {
+        aglomerado(aleatorio(0.1, 0.95) * W, aleatorio(0.1, 0.85) * H, aleatorio(8, 13) * esc, 3);
+      }
+      marolar(aleatorio(0.1, 0.9) * W, aleatorio(0.1, 0.85) * H, 95, 1200);
+    });
+  }
+
+  function iniciar() {
+    hero = $('.hero');
+    canvas = $('#agua');
+    if (!hero || !canvas) return;
+    ctx = canvas.getContext('2d', { alpha: false });
+
+    medir();
+    semear();
+    ligarEventos();
+
+    if (reduzir) {
+      crescer(Infinity);
+      pintar();
+    } else {
+      proximaGota = performance.now() + 6500;
+      Kawave.nucleo.observarVisivel(hero, v => { visivel = v; });
+      Kawave.nucleo.adicionar(quadro);
+    }
+  }
+
+  return { iniciar, soltar, marolar };
+})();
+
+/* ==========================================================
+   marca.js · a logo do Kawave ondulando como se estivesse
+   debaixo d'água (filtro SVG #ondular no <defs> do HTML).
+
+   O filtro é pesado, então é atualizado a ~14 quadros por
+   segundo. Fica mais agitado quando a página rola e "respira"
+   a cada batida da música.
+   ========================================================== */
+Kawave.marca = (() => {
+  const { reduzir, limitar, debounce, $ } = Kawave.nucleo;
+
+  let el, turbulencia, deslocamento;
+  let base = 10;
+  let pulso = 0;
+  let visivel = true;
+  let ultimo = 0;
+
+  // a força da ondulação acompanha a altura da logo na tela
+  function medir() {
+    const altura = el.getBoundingClientRect().height || 100;
+    base = limitar(altura * 0.03, 2, 7);
+    deslocamento.setAttribute('scale', base.toFixed(1));
+  }
+
+  function quadro(agora, dt) {
+    pulso *= Math.exp(-dt * 5);
+    if (!visivel || agora - ultimo < 70) return;
+    ultimo = agora;
+
+    const t = agora / 1000;
+    const agitacao = Math.min(Math.abs(Kawave.rolagem.velocidade()), 2500);
+
+    const fx = 0.005 + 0.002 * Math.sin(t * 0.35) + agitacao * 0.0000015;
+    const fy = 0.020 + 0.008 * Math.sin(t * 0.5 + 1);
+    turbulencia.setAttribute('baseFrequency', `${fx.toFixed(4)} ${fy.toFixed(4)}`);
+
+    const forca = 1 + pulso * 0.7 + Math.min(agitacao / 1800, 0.8);
+    deslocamento.setAttribute('scale', (base * forca).toFixed(1));
+  }
+
+  function iniciar() {
+    el = $('.marca');
+    turbulencia = $('#ondular feTurbulence');
+    deslocamento = $('#ondular feDisplacementMap');
+    if (!el || !turbulencia || !deslocamento) return;
+
+    medir();
+    addEventListener('resize', debounce(medir));
+    if (reduzir) return;
+
+    Kawave.nucleo.observarVisivel(el, v => { visivel = v; el.classList.toggle('parada', !v); });
+    Kawave.nucleo.adicionar(quadro);
+    Kawave.ouvir('batida', e => { pulso = e.detail.forte ? 1 : 0.55; });
+  }
+
+  return { iniciar };
+})();
+
+/* ==========================================================
+   ondas.js · as três marés desenhadas ao vivo (SVG)
+
+   Cada maré tem três linhas de tinta que ondulam com
+   amplitude, frequência e velocidade próprias:
+     data-onda="amplitude,ciclos,velocidade,força-da-batida"
+
+   - passar o mouse faz a água se erguer sob o ponteiro
+   - com a música ligada, cada batida empurra a onda
+   ========================================================== */
+Kawave.ondas = (() => {
+  const { reduzir, limitar, $, $$ } = Kawave.nucleo;
+
+  const TAU = Math.PI * 2;
+  const PASSOS = 72;      // pontos por linha
+  const LARGURA = 320;    // largura do viewBox
+  const MEIO = 48;        // linha central do viewBox (altura 96)
+
+  let itens = [];
+  let visivel = false;
+
+  function desenhar(m, t) {
+    const amp = Math.min(46, m.amp * (1 + 0.16 * Math.sin(t * 0.7) + 0.6 * m.pulso + 0.3 * m.hover));
+    const fase = t * m.vel;
+
+    for (let l = 0; l < m.linhas.length; l++) {
+      const esc = 1 - l * 0.2;
+      const desl = l * 0.75;
+      let d = '';
+      for (let n = 0; n <= PASSOS; n++) {
+        const x = n / PASSOS;
+        const envelope = Math.pow(Math.sin(Math.PI * x), 0.6);   // prende as pontas
+        let y = MEIO + amp * esc * envelope * (
+          Math.sin(x * m.ciclos * TAU + fase + desl) +
+          0.35 * Math.sin(x * m.ciclos * 2.1 * TAU - fase * 1.3 + desl * 2)
+        );
+        if (m.hover > 0.01) {                                    // água sobe sob o ponteiro
+          const g = Math.exp(-Math.pow((x - m.px) / 0.13, 2));
+          y -= 20 * m.hover * g * esc * Math.sin(fase * 1.5 + l);
+        }
+        d += (n ? 'L' : 'M') + (x * LARGURA).toFixed(1) + ' ' + y.toFixed(1) + ' ';
+      }
+      m.linhas[l].setAttribute('d', d);
+    }
+  }
+
+  function quadro(agora, dt) {
+    if (!visivel) return;
+    const t = agora / 1000;
+    for (const m of itens) {
+      m.pulso *= Math.exp(-dt * 4.5);
+      m.hover += (m.hoverAlvo - m.hover) * (1 - Math.exp(-dt * 6));
+      desenhar(m, t);
+    }
+  }
+
+  function iniciar() {
+    itens = $$('.mare').map(el => {
+      const svg = $('.mare__onda', el);
+      const [amp, ciclos, vel, forca] = svg.dataset.onda.split(',').map(Number);
+      const m = {
+        el, svg, amp, ciclos, vel, forca,
+        linhas: $$('path', svg),
+        pulso: 0, hover: 0, hoverAlvo: 0, px: 0.5
+      };
+      el.addEventListener('pointerenter', () => { m.hoverAlvo = 1; });
+      el.addEventListener('pointerleave', () => { m.hoverAlvo = 0; });
+      el.addEventListener('pointermove', e => {
+        const r = svg.getBoundingClientRect();
+        m.px = limitar((e.clientX - r.left) / r.width, 0, 1);
+      });
+      return m;
+    });
+
+    if (reduzir) { itens.forEach(m => desenhar(m, 0)); return; }
+
+    Kawave.nucleo.observarVisivel($('.mares'), v => { visivel = v; });
+    Kawave.nucleo.adicionar(quadro, 30);
+    Kawave.ouvir('batida', e => {
+      const f = e.detail.forte ? 1 : 0.65;
+      itens.forEach(m => { m.pulso = Math.max(m.pulso, m.forca * f); });
+    });
+  }
+
+  return { iniciar };
+})();
+
+/* ==========================================================
+   faixa.js · duas fitas de texto que se trançam sobre a onda
+
+   O texto corre ao longo de um caminho senoidal (SVG textPath).
+   Uma fita anda para a esquerda, a outra para a direita, e a
+   rolagem da página "arrasta" as duas.
+   O desenho é gerado a partir da largura real da tela.
+   ========================================================== */
+Kawave.faixa = (() => {
+  const { reduzir, limitar, debounce, $ } = Kawave.nucleo;
+
+  const NS = 'http://www.w3.org/2000/svg';
+  const XLINK = 'http://www.w3.org/1999/xlink';
+  const XML = 'http://www.w3.org/XML/1998/namespace';
+
+  // texto de cada fita (edite aqui): [0] fita branca de contorno, [1] fita colorida
+  const FRASES = [
+    'KAWAVE' + ' '.repeat(6),
+    'Da baixada para o mundo  ~  '
+  ];
+
+  let caixa, svg;
+  let fitas = [];
+  let largura = 0;
+  let visivel = false;
+  let montando = false;
+
+  const criar = (tag, attrs = {}) => {
+    const el = document.createElementNS(NS, tag);
+    for (const k in attrs) el.setAttribute(k, attrs[k]);
+    return el;
+  };
+
+  // onda senoidal feita de curvas quadráticas (Q + T), maior que a tela
+  function caminhoOnda(larg, meio, amp, periodo, deslocamento) {
+    const inicio = -periodo * 2 - deslocamento;
+    const metades = Math.ceil((larg + periodo * 4) / (periodo / 2));
+    let d = `M${inicio} ${meio} Q${inicio + periodo / 4} ${meio - 2 * amp} ${inicio + periodo / 2} ${meio}`;
+    for (let i = 2; i <= metades; i++) d += ` T${inicio + (i * periodo) / 2} ${meio}`;
+    return d;
+  }
+
+  function posicionar(f) {
+    const m = ((f.pos % f.T) + f.T) % f.T;
+    f.tp.setAttribute('startOffset', (-m).toFixed(1));
+  }
+
+  async function montar() {
+    if (montando) return;
+    montando = true;
+    try {
+      largura = Math.round(caixa.clientWidth || innerWidth);
+      const alt = Math.round(limitar(largura * 0.2, 170, 260));
+      const meio = alt / 2;
+      const amp = alt * 0.26;
+      const periodo = limitar(largura * 0.42, 260, 620);
+
+      svg.setAttribute('viewBox', `0 0 ${largura} ${alt}`);
+      svg.replaceChildren();
+
+      const defs = criar('defs');
+      const grad = criar('linearGradient', {
+        id: 'grad-faixa', gradientUnits: 'userSpaceOnUse', x1: 0, y1: 0, x2: largura, y2: 0
+      });
+      [['0', '#2fe0ff'], ['0.35', '#9b82ff'], ['0.7', '#ff4fa0'], ['1', '#ffc94d']]
+        .forEach(([o, c]) => grad.appendChild(criar('stop', { offset: o, 'stop-color': c })));
+      defs.appendChild(grad);
+      svg.appendChild(defs);
+
+      // espera a fonte para medir o texto com a largura certa
+      try {
+        await Promise.all([document.fonts.load('700 40px Unbounded'), document.fonts.ready]);
+      } catch (_) { /* segue com a fonte reserva */ }
+
+      const tam = limitar(alt * 0.3, 44, 72);
+      const configuracoes = [
+        { id: 'pista-a', frase: FRASES[0], classe: 'fita--contorno', tam,        desl: 0,          dir: 1,  vel: 38 },
+        { id: 'pista-b', frase: FRASES[1], classe: 'fita--cheia',    tam: tam * 0.55, desl: periodo / 2, dir: -1, vel: 30 }
+      ];
+
+      fitas = configuracoes.map(c => {
+        const path = criar('path', {
+          id: c.id, fill: 'none', stroke: 'none',
+          d: caminhoOnda(largura, meio, amp, periodo, c.desl)
+        });
+        svg.appendChild(path);
+
+        const texto = criar('text', { class: c.classe, 'font-size': c.tam.toFixed(1) });
+        texto.style.whiteSpace = 'pre';
+        texto.setAttributeNS(XML, 'xml:space', 'preserve');
+        const tp = criar('textPath');
+        tp.setAttribute('href', '#' + c.id);
+        tp.setAttributeNS(XLINK, 'xlink:href', '#' + c.id);
+        texto.appendChild(tp);
+        svg.appendChild(texto);
+
+        // mede uma repetição da frase e repete até cobrir o caminho
+        tp.textContent = c.frase;
+        let T = texto.getComputedTextLength();
+        if (!(T > 50)) T = 900;
+        const L = path.getTotalLength();
+        tp.textContent = c.frase.repeat(Math.ceil((L + T) / T) + 1);
+
+        const f = { tp, T, dir: c.dir, vel: c.vel, pos: c.dir > 0 ? 0 : T * 0.5 };
+        posicionar(f);
+        return f;
+      });
+    } finally {
+      montando = false;
+    }
+  }
+
+  function quadro(agora, dt) {
+    if (!visivel || !fitas.length) return;
+    const v = Kawave.rolagem.velocidade();
+    for (const f of fitas) {
+      f.pos += (f.dir * f.vel + v * 0.3) * dt;
+      posicionar(f);
+    }
+  }
+
+  function iniciar() {
+    caixa = $('.faixa');
+    svg = caixa && $('svg', caixa);
+    if (!svg) return;
+
+    montar();
+    addEventListener('resize', debounce(() => {
+      if (Math.abs(caixa.clientWidth - largura) > 8) montar();
+    }, 250));
+
+    if (reduzir) return;
+    Kawave.nucleo.observarVisivel(caixa, v => { visivel = v; });
+    Kawave.nucleo.adicionar(quadro);
+  }
+
+  return { iniciar };
+})();
+
+/* ==========================================================
+   batida.js · "Sentir a batida"
+
+   Toca o set do YouTube definido em config.js (Kawave.config.set)
+   dentro de um mini player que abre no canto da tela.
+
+   - O player só é carregado quando a pessoa clica no botão
+     (nada do YouTube é baixado antes disso).
+   - O YouTube não deixa a página "ouvir" o áudio, então o ritmo
+     vem de um relógio: usamos o tempo do vídeo (getCurrentTime) e
+     o andamento configurado (bpm) para saber quando cai cada tempo.
+   - A cada tempo o módulo emite o evento "batida":
+       { batida: 0..3, compasso: 0..3, forte: true no tempo 1 }
+     e tinta.js, ondas.js, marca.js e cursor.js reagem a ele.
+   - O player fica visível enquanto toca (exigência dos termos do
+     YouTube) e pausa se a aba for escondida.
+   - O YouTube não toca em página aberta direto do arquivo
+     (file://). Use o Live Server ou um servidor (http://).
+   ========================================================== */
+Kawave.batida = (() => {
+  const { $, reduzir } = Kawave.nucleo;
+
+  const ROTULO_PARADO = 'Sentir a batida';
+  const ROTULO_TOCANDO = 'Silenciar a batida';
+  const ROTULO_CARREGANDO = 'Carregando o set…';
+  const ESPERA_DE_INICIO = 7000;    // ms até avisar que o navegador bloqueou o início
+
+  let botao, rotulo, painel, alvo, titulo, aviso;
+  let player = null;
+  let apiPromessa = null;
+  let painelAberto = false;
+  let carregando = false;
+  let ligada = false;
+  let falhou = false;               // o player deu erro nesta tentativa
+  let temporizadorInicio = 0;
+
+  // relógio de batidas
+  let tempoEstimado = 0;
+  let ultimaAmostra = -1;
+  let batidaAnterior = -1;
+
+  /* ---------- configuração ---------- */
+  const conf = () => (Kawave.config && Kawave.config.set) || {};
+
+  function idDoVideo() {
+    const m = String(conf().link || '').match(/(?:v=|youtu\.be\/|embed\/|shorts\/|live\/)([\w-]{11})/);
+    return m ? m[1] : '';
+  }
+
+  const linkDoVideo = () => conf().link || `https://www.youtube.com/watch?v=${idDoVideo()}`;
+
+  /* ---------- interface ---------- */
+  function atualizarBotao() {
+    botao.setAttribute('aria-pressed', String(ligada));
+    botao.setAttribute('aria-busy', String(carregando));
+    rotulo.textContent = carregando ? ROTULO_CARREGANDO : (ligada ? ROTULO_TOCANDO : ROTULO_PARADO);
+    document.body.classList.toggle('batida-ligada', ligada);
+  }
+
+  function abrirPainel() {
+    if (painelAberto) return;
+    painelAberto = true;
+    painel.hidden = false;
+    void painel.offsetWidth;                 // garante a transição de entrada
+    painel.classList.add('aberto');
+    botao.setAttribute('aria-expanded', 'true');
+  }
+
+  function fecharPainel() {
+    if (!painelAberto) return;
+    painelAberto = false;
+    painel.classList.remove('aberto');
+    botao.setAttribute('aria-expanded', 'false');
+    const esconder = () => { if (!painelAberto) painel.hidden = true; };
+    if (reduzir) esconder(); else setTimeout(esconder, 500);
+  }
+
+  function limparAviso() {
+    aviso.hidden = true;
+    aviso.textContent = '';
+  }
+
+  function mostrarAviso(mensagem, comLink = true) {
+    aviso.textContent = mensagem + ' ';
+    if (comLink) {
+      const a = document.createElement('a');
+      a.href = linkDoVideo();
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = 'Abrir no YouTube';
+      aviso.appendChild(a);
+    }
+    aviso.hidden = false;
+  }
+
+  function atualizarTitulo() {
+    try {
+      const dados = player && player.getVideoData && player.getVideoData();
+      if (dados && dados.title) titulo.textContent = dados.title;
+    } catch (_) { /* o título é só um detalhe */ }
+  }
+
+  function definirLigada(valor) {
+    if (valor === ligada) return;
+    ligada = valor;
+    if (ligada) {
+      try { tempoEstimado = player.getCurrentTime(); } catch (_) { tempoEstimado = 0; }
+      ultimaAmostra = -1;
+      batidaAnterior = -1;
+    }
+    atualizarBotao();
+    Kawave.emitir('batida-estado', { ligada });
+  }
+
+  function mensagemDeErro(codigo) {
+    if (codigo === 153 || (location.protocol === 'file:' && codigo !== 100)) {
+      return 'O YouTube não toca a partir de um arquivo aberto direto. Abra a página pelo Live Server (endereço http://).';
+    }
+    if (codigo === 101 || codigo === 150) return 'O dono do vídeo não permite tocar fora do YouTube.';
+    if (codigo === 100) return 'O vídeo está indisponível ou é privado.';
+    return 'Não foi possível tocar o set aqui.';
+  }
+
+  // joga o player fora e deixa um novo alvo pronto: o próximo clique tenta do zero
+  function reiniciarPlayer() {
+    try { if (player && player.destroy) player.destroy(); } catch (_) { /* já removido */ }
+    player = null;
+    const caixa = $('.set__video', painel);
+    caixa.replaceChildren();
+    alvo = document.createElement('div');
+    alvo.id = 'set-player';
+    caixa.appendChild(alvo);
+  }
+
+  function tratarErro(codigo, mensagem) {
+    falhou = true;
+    clearTimeout(temporizadorInicio);
+    carregando = false;
+    definirLigada(false);
+    atualizarBotao();
+    mostrarAviso(mensagem || mensagemDeErro(codigo));
+    if (codigo) setTimeout(reiniciarPlayer, 0);
+  }
+
+  /* ---------- YouTube ---------- */
+  function carregarApi() {
+    if (window.YT && window.YT.Player) return Promise.resolve();
+    if (apiPromessa) return apiPromessa;
+
+    apiPromessa = new Promise((resolver, rejeitar) => {
+      const anterior = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof anterior === 'function') anterior();
+        resolver();
+      };
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.async = true;
+      script.onerror = () => { apiPromessa = null; rejeitar(new Error('Não foi possível conectar ao YouTube. Confira a internet.')); };
+      document.head.appendChild(script);
+      setTimeout(() => {
+        if (!(window.YT && window.YT.Player)) { apiPromessa = null; rejeitar(new Error('O YouTube demorou demais para responder.')); }
+      }, 12000);
+    });
+    return apiPromessa;
+  }
+
+  function criarPlayer() {
+    return new Promise((resolver, rejeitar) => {
+      const variaveis = { playsinline: 1, rel: 0, modestbranding: 1, iv_load_policy: 3, controls: 1 };
+      if (/^https?:$/.test(location.protocol)) variaveis.origin = location.origin;
+
+      player = new window.YT.Player(alvo, {
+        host: 'https://www.youtube-nocookie.com',
+        videoId: idDoVideo(),
+        width: '100%',
+        height: '100%',
+        playerVars: variaveis,
+        events: {
+          onReady: () => resolver(),
+          onStateChange: aoMudarEstado,
+          onError: e => { rejeitar(new Error(mensagemDeErro(e.data))); tratarErro(e.data); }
+        }
+      });
+    });
+  }
+
+  function aoMudarEstado(e) {
+    const S = window.YT.PlayerState;
+    atualizarTitulo();
+    if (e.data === S.PLAYING) {
+      clearTimeout(temporizadorInicio);
+      carregando = false;
+      limparAviso();
+      definirLigada(true);
+      atualizarBotao();
+    } else if (e.data === S.PAUSED || e.data === S.ENDED) {
+      definirLigada(false);
+    }
+  }
+
+  async function tocar() {
+    if (carregando) return;
+    carregando = true;
+    falhou = false;
+    limparAviso();
+    atualizarBotao();
+    abrirPainel();
+    try {
+      await carregarApi();
+      if (!player) await criarPlayer();
+      if (falhou) return;                       // o erro já foi mostrado ao visitante
+      player.playVideo();
+      // se o navegador bloquear o início automático, avisa em vez de ficar "carregando"
+      clearTimeout(temporizadorInicio);
+      temporizadorInicio = setTimeout(() => {
+        if (ligada || falhou) return;
+        carregando = false;
+        atualizarBotao();
+        mostrarAviso('Aperte o play no player para começar.', false);
+      }, ESPERA_DE_INICIO);
+    } catch (erro) {
+      tratarErro(0, erro.message);
+    }
+  }
+
+  function pausar() {
+    clearTimeout(temporizadorInicio);
+    carregando = false;
+    if (player && player.pauseVideo) player.pauseVideo();
+    definirLigada(false);
+    atualizarBotao();
+  }
+
+  /* ---------- relógio de batidas ---------- */
+  function relogio(agora, dt) {
+    if (!ligada || !player || !player.getCurrentTime) return;
+    if (player.getPlayerState() !== window.YT.PlayerState.PLAYING) return;
+
+    const taxa = player.getPlaybackRate ? player.getPlaybackRate() : 1;
+    tempoEstimado += dt * taxa;
+
+    // o player informa o tempo em pequenos saltos: corrige o relógio aos poucos
+    const amostra = player.getCurrentTime();
+    if (amostra !== ultimaAmostra) {
+      const primeira = ultimaAmostra < 0;
+      ultimaAmostra = amostra;
+      const erro = amostra - tempoEstimado;
+      if (primeira || Math.abs(erro) > 1) tempoEstimado = amostra;   // início ou salto na linha do tempo
+      else tempoEstimado += erro * 0.3;
+    }
+
+    const bpm = Number(conf().bpm) || 124;
+    const b = Math.floor((tempoEstimado - (Number(conf().atraso) || 0)) * bpm / 60);
+    if (b === batidaAnterior) return;
+
+    const salto = batidaAnterior < 0 || Math.abs(b - batidaAnterior) > 2;
+    batidaAnterior = b;
+    if (salto || b < 0) return;
+
+    Kawave.emitir('batida', { batida: b % 4, compasso: Math.floor(b / 4) % 4, forte: b % 4 === 0 });
+  }
+
+  /* ---------- início ---------- */
+  function iniciar() {
+    botao = $('#batida');
+    painel = $('#set');
+    if (!botao || !painel || !idDoVideo()) { if (botao) botao.hidden = true; return; }
+
+    rotulo = $('.batida__rotulo', botao);
+    alvo = $('#set-player', painel);
+    titulo = $('.set__titulo', painel);
+    aviso = $('.set__aviso', painel);
+    botao.hidden = false;
+
+    botao.addEventListener('click', () => {
+      if (ligada) { pausar(); fecharPainel(); } else { tocar(); }
+    });
+
+    $('.set__fechar', painel).addEventListener('click', () => { pausar(); fecharPainel(); });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && painelAberto) { pausar(); fecharPainel(); }
+    });
+
+    // aba escondida: pausa (o player continuaria tocando em segundo plano)
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && ligada) pausar();
+    });
+
+    Kawave.nucleo.adicionar(relogio);
+  }
+
+  return { iniciar, ligada: () => ligada };
+})();
+
+/* ==========================================================
+   cursor.js · anel de gota que segue o mouse (só desktop)
+
+   O anel chega um instante depois do ponteiro, cresce sobre
+   links e botões, encolhe sobre campos de texto e dá um
+   pulso a cada batida da música.
+
+   Estrutura: .cursor (só se move) > .cursor__anel (só muda de
+   tamanho). Separar as duas funções evita que o crescimento
+   desloque o anel para longe do ponteiro.
+   ========================================================== */
+Kawave.cursor = (() => {
+  const { reduzir, ponteiroFino, $ } = Kawave.nucleo;
+
+  function iniciar() {
+    const raiz = $('.cursor');
+    const anel = raiz && $('.cursor__anel', raiz);
+    if (!raiz || !anel || reduzir || !ponteiroFino) return;
+
+    let x = -100, y = -100;          // onde o mouse está
+    let ax = -100, ay = -100;        // onde o anel está (corre atrás do mouse)
+    let desenhadoX = null, desenhadoY = null;
+    let visivel = false;
+    let ocultoPeloAlvo = false;      // mouse sobre o player do YouTube
+    let verificando = false;
+
+    function posicionar() {
+      desenhadoX = ax; desenhadoY = ay;
+      raiz.style.transform = `translate3d(${ax.toFixed(1)}px,${ay.toFixed(1)}px,0)`;
+    }
+
+    function mostrar() {
+      if (visivel) return;
+      visivel = true;
+      ax = x; ay = y;
+      posicionar();
+      raiz.classList.add('visivel');
+    }
+
+    function esconder() {
+      if (!visivel) return;
+      visivel = false;
+      raiz.classList.remove('visivel');
+    }
+
+    // estado do anel conforme o que está embaixo do ponteiro; null = esconder
+    function estadoDe(alvo) {
+      if (!(alvo instanceof Element)) return null;
+      if (alvo.closest('.set__video')) return null;        // o iframe do YouTube não repassa o mouse
+      if (alvo.closest('a,button,select,label,[data-cursor]')) return 'ativo';
+      if (alvo.closest('input,textarea')) return 'texto';
+      if (alvo.closest('.hero')) return 'tinta';
+      return '';
+    }
+
+    function aplicar(alvo) {
+      const estado = estadoDe(alvo);
+      ocultoPeloAlvo = estado === null;
+      if (ocultoPeloAlvo) { esconder(); return; }
+      raiz.dataset.estado = estado;
+      // sobre o fundo claro (serviços) o anel fica azul-marinho em vez de branco
+      raiz.dataset.tema = alvo.closest('.servicos') ? 'claro' : '';
+    }
+
+    addEventListener('pointermove', e => {
+      if (e.pointerType !== 'mouse') return;
+      x = e.clientX;
+      y = e.clientY;
+      if (!visivel && !ocultoPeloAlvo) mostrar();
+    }, { passive: true });
+
+    addEventListener('pointerover', e => {
+      if (e.pointerType === 'mouse') aplicar(e.target);
+    });
+
+    // rolando com o mouse parado, o que está embaixo do ponteiro muda sem novo movimento
+    addEventListener('scroll', () => {
+      if (verificando || !visivel) return;
+      verificando = true;
+      requestAnimationFrame(() => {
+        verificando = false;
+        if (visivel) aplicar(document.elementFromPoint(x, y));
+      });
+    }, { passive: true });
+
+    document.documentElement.addEventListener('mouseleave', esconder);
+    addEventListener('blur', esconder);
+
+    Kawave.nucleo.adicionar((agora, dt) => {
+      if (!visivel) return;
+      const k = 1 - Math.exp(-dt * 18);
+      ax += (x - ax) * k;
+      ay += (y - ay) * k;
+      if (Math.abs(ax - desenhadoX) > 0.05 || Math.abs(ay - desenhadoY) > 0.05) posicionar();
+    });
+
+    Kawave.ouvir('batida', () => {
+      if (visivel && anel.animate) {
+        anel.animate([{ transform: 'scale(1.35)' }, { transform: 'scale(1)' }], { duration: 400, easing: 'ease-out' });
+      }
+    });
+  }
+
+  return { iniciar };
+})();
+
+/* ==========================================================
+   revelar.js · blocos que se abrem como gotas de tinta
+
+   Marque um elemento com data-revelar. Para revelar vários em
+   sequência, coloque data-revelar-grupo no pai: cada filho
+   ganha um atraso escalonado (--i).
+   O ponto de onde a tinta se espalha é --rx (padrão 8%).
+
+   Obs.: a posição é conferida com getBoundingClientRect em vez
+   de IntersectionObserver, porque o Chrome trata um elemento
+   totalmente recortado por clip-path como "fora da tela" e o
+   observador nunca dispararia.
+   ========================================================== */
+Kawave.revelar = (() => {
+  const { reduzir, $$ } = Kawave.nucleo;
+
+  let pendentes = [];
+  let agendado = false;
+
+  function verificar() {
+    agendado = false;
+    const limite = innerHeight * 0.94;
+    pendentes = pendentes.filter(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < limite && r.bottom > 0) {
+        el.classList.add('revelado');
+        return false;
+      }
+      return true;
+    });
+    if (!pendentes.length) {
+      removeEventListener('scroll', pedir);
+      removeEventListener('resize', pedir);
+    }
+  }
+
+  function pedir() {
+    if (agendado) return;
+    agendado = true;
+    requestAnimationFrame(verificar);
+  }
+
+  function iniciar() {
+    const alvos = $$('[data-revelar]');
+
+    // sem movimento: tudo já visível
+    if (reduzir) {
+      alvos.forEach(el => el.classList.add('revelado', 'pronto'));
+      return;
+    }
+
+    $$('[data-revelar-grupo]').forEach(grupo => {
+      $$('[data-revelar]', grupo).forEach((el, i) => el.style.setProperty('--i', i));
+    });
+
+    // ao fim da transição, libera o recorte (para sombras e brilhos não serem cortados)
+    document.addEventListener('transitionend', e => {
+      const el = e.target;
+      if (e.propertyName === 'clip-path' && el.matches && el.matches('[data-revelar].revelado')) {
+        el.classList.add('pronto');
+      }
+    });
+
+    pendentes = alvos;
+    addEventListener('scroll', pedir, { passive: true });
+    addEventListener('resize', pedir);
+    verificar();
+  }
+
+  return { iniciar };
+})();
+
+/* ==========================================================
+   botoes.js · microinterações dos botões
+
+   - magnético: o botão se inclina na direção do ponteiro
+   - clique: duas gotas em anel nascem no ponto tocado
+   ========================================================== */
+Kawave.botoes = (() => {
+  const { reduzir, ponteiroFino, $$ } = Kawave.nucleo;
+
+  function soltarGota(botao, e) {
+    const r = botao.getBoundingClientRect();
+    ['', ' btn__gota--2'].forEach(extra => {
+      const gota = document.createElement('span');
+      gota.className = 'btn__gota' + extra;
+      gota.style.left = (e.clientX - r.left) + 'px';
+      gota.style.top = (e.clientY - r.top) + 'px';
+      gota.addEventListener('animationend', () => gota.remove());
+      botao.appendChild(gota);
+    });
+  }
+
+  function iniciar() {
+    $$('.btn').forEach(botao => {
+      if (!reduzir) botao.addEventListener('pointerdown', e => soltarGota(botao, e));
+
+      if (reduzir || !ponteiroFino) return;
+      botao.addEventListener('pointermove', e => {
+        const r = botao.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width / 2)) / r.width;
+        const dy = (e.clientY - (r.top + r.height / 2)) / r.height;
+        botao.style.transform = `translate(${(dx * 12).toFixed(1)}px, ${(dy * 9).toFixed(1)}px)`;
+      });
+      botao.addEventListener('pointerleave', () => { botao.style.transform = ''; });
+    });
+  }
+
+  return { iniciar };
+})();
+
+/* ==========================================================
+   servicos.js · mancha de tinta atrás do serviço em foco
+
+   Só informa ao CSS onde está o ponteiro (--mx, --my); quem
+   desenha a mancha é .servico::before em 04-secoes.css.
+   ========================================================== */
+Kawave.servicos = (() => {
+  const { ponteiroFino, $$ } = Kawave.nucleo;
+
+  const FOLGA_X = 14;   // igual ao inset negativo do ::before
+  const FOLGA_Y = 8;
+
+  function iniciar() {
+    if (!ponteiroFino) return;
+    $$('.servico').forEach(item => {
+      item.addEventListener('pointermove', e => {
+        const r = item.getBoundingClientRect();
+        item.style.setProperty('--mx', (e.clientX - r.left + FOLGA_X).toFixed(0) + 'px');
+        item.style.setProperty('--my', (e.clientY - r.top + FOLGA_Y).toFixed(0) + 'px');
+      });
+    });
+  }
+
+  return { iniciar };
+})();
+
+/* ==========================================================
+   formulario.js · contatos e reserva
+
+   - aplica os links de config.js aos elementos [data-link]
+   - atualiza o ano do rodapé
+   - transforma o formulário em uma mensagem de WhatsApp
+   ========================================================== */
+Kawave.formulario = (() => {
+  const { $, $$ } = Kawave.nucleo;
+
+  function aplicarLinks() {
+    const { config } = Kawave;
+    $$('[data-link]').forEach(a => {
+      const chave = a.dataset.link;
+      a.href = chave === 'whatsapp' ? `https://wa.me/${config.whatsapp}` : (config[chave] || '#');
+      if (a.href.startsWith('http')) {
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+      }
+    });
+    const ano = $('#ano');
+    if (ano) ano.textContent = new Date().getFullYear();
+  }
+
+  function montarMensagem(d) {
+    const dataBR = d.data ? d.data.split('-').reverse().join('/') : '';
+    return [
+      'Olá, Kawave! Vim pela sua página e quero reservar uma data.',
+      '',
+      `Nome: ${d.nome}`,
+      `Tipo de evento: ${d.evento}`,
+      dataBR ? `Data: ${dataBR}` : null,
+      d.cidade ? `Cidade e local: ${d.cidade}` : null,
+      d.detalhes ? `Detalhes: ${d.detalhes}` : null
+    ].filter(linha => linha !== null).join('\n');
+  }
+
+  function iniciar() {
+    aplicarLinks();
+
+    const form = $('#form-reserva');
+    const status = $('#status');
+    if (!form) return;
+
+    const campoData = $('#data');
+    if (campoData) campoData.min = new Date().toISOString().slice(0, 10);
+
+    form.addEventListener('submit', ev => {
+      ev.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      const dados = Object.fromEntries(new FormData(form).entries());
+      const url = `https://wa.me/${Kawave.config.whatsapp}?text=${encodeURIComponent(montarMensagem(dados))}`;
+      window.open(url, '_blank', 'noopener');
+      status.textContent = 'Abrindo o WhatsApp com a sua mensagem. Se nada abrir, use o link "Abrir o WhatsApp" acima.';
+    });
+  }
+
+  return { iniciar };
+})();
+
+/* ==========================================================
+   economia.js · poupa o processador
+
+   As auroras (brilhos que derivam atrás das seções escuras)
+   eram animadas por CSS a 60 quadros por segundo. Como são
+   camadas grandes e translúcidas, isso pesava bastante. Agora:
+   - só se movem enquanto a seção delas está perto da tela;
+   - o movimento é calculado aqui, a 12 quadros por segundo
+     (a deriva é lenta, de 28 a 36 s por ciclo: ninguém nota).
+   O trajeto é o mesmo dos antigos keyframes "deriva":
+   de translate(-6%,-4%) scale(1) até translate(9%,7%) scale(1.28).
+   ========================================================== */
+Kawave.economia = (() => {
+  const { reduzir, $$ } = Kawave.nucleo;
+
+  // duração do ciclo (s), deslocamento no tempo (s) e se o sentido é invertido
+  const AURORAS = [
+    { dur: 28, desl: 0,  inverso: false },
+    { dur: 36, desl: 12, inverso: true },
+    { dur: 32, desl: 6,  inverso: false }
+  ];
+
+  let grupos = [];
+
+  function mover(agora) {
+    const t = agora / 1000;
+    for (const g of grupos) {
+      if (!g.visivel) continue;
+      g.itens.forEach((it, k) => {
+        const p = AURORAS[k] || AURORAS[0];
+        let u = 0.5 - 0.5 * Math.cos(Math.PI * (t + p.desl) / p.dur);   // vai e volta, suave
+        if (p.inverso) u = 1 - u;
+        it.style.transform =
+          `translate3d(${(-6 + 15 * u).toFixed(2)}%,${(-4 + 11 * u).toFixed(2)}%,0) scale(${(1 + 0.28 * u).toFixed(3)})`;
+      });
+    }
+  }
+
+  function iniciar() {
+    grupos = $$('.aurora').map(aurora => {
+      const g = { aurora, itens: $$('i', aurora), visivel: false };
+      Kawave.nucleo.observarVisivel(
+        aurora.parentElement,
+        visivel => { g.visivel = visivel; aurora.classList.toggle('fora', !visivel); },
+        { rootMargin: '200px 0px' }
+      );
+      return g;
+    });
+    if (!reduzir) Kawave.nucleo.adicionar(mover, 12);
+  }
+
+  return { iniciar };
+})();
+
+/* ==========================================================
+   main.js · liga cada módulo, na ordem
+
+   Cada módulo é iniciado dentro de um try/catch: se um falhar,
+   o resto da página continua funcionando e o erro aparece no
+   console com o nome do módulo.
+   ========================================================== */
+(() => {
+  const ordem = [
+    'rolagem',     // velocidade de rolagem, topo e rodapé (os outros dependem dela)
+    'tinta',       // água de suminagashi do hero
+    'marca',       // nome ondulando
+    'ondas',       // três marés ao vivo
+    'faixa',       // fitas de texto trançadas
+    'batida',      // som generativo e ritmo da página
+    'cursor',      // anel de gota
+    'revelar',     // blocos que se abrem como tinta
+    'botoes',      // magnético e gotas no clique
+    'servicos',    // mancha de tinta nos serviços
+    'economia',    // pausa as auroras quando a seção sai da tela
+    'formulario'   // links, ano e reserva por WhatsApp
+  ];
+
+  ordem.forEach(nome => {
+    try {
+      Kawave[nome].iniciar();
+    } catch (erro) {
+      console.error(`[Kawave] falha no módulo "${nome}":`, erro);
+    }
+  });
+})();
+</script>
+</body>
+</html>
